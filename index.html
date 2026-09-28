@@ -140,6 +140,7 @@ button:active {
 <div class="container">
 
   <div class="card">
+
     <div class="date" id="today"></div>
 
     <div class="task">
@@ -183,18 +184,24 @@ button:active {
     </div>
 
     <div class="progress-box">
+
       <div class="progress-bar">
         <div class="progress" id="progress"></div>
       </div>
 
       <div class="percent" id="percent">0%</div>
+
     </div>
 
-    <button onclick="saveToday()">Save Today's Progress</button>
+    <button onclick="saveToday()">
+      Save Today's Progress
+    </button>
+
   </div>
 
 
   <div class="card">
+
     <h2>Monthly Performance</h2>
 
     <div class="summary-item">
@@ -220,6 +227,7 @@ button:active {
     <p class="small">
       Your progress is saved on this device.
     </p>
+
   </div>
 
 </div>
@@ -245,6 +253,7 @@ const dateKey =
   String(today.getMonth() + 1).padStart(2, "0") + "-" +
   String(today.getDate()).padStart(2, "0");
 
+
 document.getElementById("today").innerText =
   today.toLocaleDateString("en-US", {
     weekday: "long",
@@ -259,9 +268,11 @@ function updateProgress() {
   let completed = 0;
 
   tasks.forEach(id => {
+
     if (document.getElementById(id).checked) {
       completed++;
     }
+
   });
 
   let percentage =
@@ -288,8 +299,10 @@ function saveToday() {
   let data = {};
 
   tasks.forEach(id => {
+
     data[id] =
       document.getElementById(id).checked;
+
   });
 
   localStorage.setItem(
@@ -309,7 +322,9 @@ function loadToday() {
     localStorage.getItem("routine-" + dateKey);
 
   if (!saved) {
+
     updateProgress();
+
     return;
   }
 
