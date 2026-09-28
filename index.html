@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Daily Routine</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  color: #222;
+}
+
+header {
+  background: #1f6f5b;
+  color: white;
+  padding: 22px 18px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 25px;
+}
+
+header p {
+  margin: 7px 0 0;
+  opacity: 0.9;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+  padding: 18px;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 16px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+.date {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.task {
+  display: flex;
+  align-items: center;
+  padding: 13px 5px;
+  border-bottom: 1px solid #eee;
+}
+
+.task:last-child {
+  border-bottom: none;
+}
+
+.task input {
+  width: 21px;
+  height: 21px;
+  margin-right: 12px;
+}
+
+.task label {
+  font-size: 16px;
+}
+
+.progress-box {
+  margin-top: 15px;
+}
+
+.progress-bar {
+  height: 14px;
+  background: #e5e5e5;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  width: 0%;
+  background: #1f6f5b;
+  transition: width 0.3s;
+}
+
+.percent {
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+button {
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: bold;
+  background: #1f6f5b;
+  color: white;
+  margin-top: 10px;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.small {
+  color: #777;
+  font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>My Daily Routine</h1>
+  <p>Daily Routine & Monthly Performance</p>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <div class="date" id="today"></div>
+
+    <div class="task">
+      <input type="checkbox" id="prayer1">
+      <label for="prayer1">Fajr Prayer</label>
+    </div>
+
+    <div class="task">
+      <input type="checkbox" id="quran">
+      <label for="quran">Quran</label>
+    </div>
+
+    <div class="task">
+      <input type="checkbox" id="duas">
+      <label for="duas">Duas</label>
+    </div>
+
+    <div class="task">
+      <input type="checkbox" id="dhikr">
+      <label for="dhikr">Dhikr</label>
+    </div>
+
+    <div class="task">
+      <input type="checkbox" id="study">
+      <label for="study">Study / Learning</label>
+    </div>
+
+    <div class="task">
+      <input type="checkbox" id="gym">
+      <label for="gym">Gym / Exercise</label>
+    </div>
+
+    <div class="task">
+      <input type="checkbox" id="work">
+      <label for="work">Work / Career Tasks</label>
+    </div>
+
+    <div class="task">
+      <input type="checkbox" id="other">
+      <label for="other">Other Important Task</label>
+    </div>
+
+    <div class="progress-box">
+      <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+      </div>
+
+      <div class="percent" id="percent">0%</div>
+    </div>
+
+    <button onclick="saveToday()">Save Today's Progress</button>
+  </div>
+
+
+  <div class="card">
+    <h2>Monthly Performance</h2>
+
+    <div class="summary-item">
+      <span>Days Tracked</span>
+      <strong id="daysTracked">0</strong>
+    </div>
+
+    <div class="summary-item">
+      <span>Completed Tasks</span>
+      <strong id="completedTasks">0</strong>
+    </div>
+
+    <div class="summary-item">
+      <span>Total Tasks</span>
+      <strong id="totalTasks">0</strong>
+    </div>
+
+    <div class="summary-item">
+      <span>Monthly Average</span>
+      <strong id="monthlyAverage">0%</strong>
+    </div>
+
+    <p class="small">
+      Your progress is saved on this device.
+    </p>
+  </div>
+
+</div>
+
+
+<script>
+
+const tasks = [
+  "prayer1",
+  "quran",
+  "duas",
+  "dhikr",
+  "study",
+  "gym",
+  "work",
+  "other"
+];
+
+const today = new Date();
+
+const dateKey =
+  today.getFullYear() + "-" +
+  String(today.getMonth() + 1).padStart(2, "0") + "-" +
+  String(today.getDate()).padStart(2, "0");
+
+document.getElementById("today").innerText =
+  today.toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
+
+
+function updateProgress() {
+
+  let completed = 0;
+
+  tasks.forEach(id => {
+    if (document.getElementById(id).checked) {
+      completed++;
+    }
+  });
+
+  let percentage =
+    Math.round((completed / tasks.length) * 100);
+
+  document.getElementById("progress").style.width =
+    percentage + "%";
+
+  document.getElementById("percent").innerText =
+    percentage + "%";
+}
+
+
+tasks.forEach(id => {
+
+  document.getElementById(id)
+    .addEventListener("change", updateProgress);
+
+});
+
+
+function saveToday() {
+
+  let data = {};
+
+  tasks.forEach(id => {
+    data[id] =
+      document.getElementById(id).checked;
+  });
+
+  localStorage.setItem(
+    "routine-" + dateKey,
+    JSON.stringify(data)
+  );
+
+  updateMonthlySummary();
+
+  alert("Today's progress saved! ✅");
+}
+
+
+function loadToday() {
+
+  let saved =
+    localStorage.getItem("routine-" + dateKey);
+
+  if (!saved) {
+    updateProgress();
+    return;
+  }
+
+  let data = JSON.parse(saved);
+
+  tasks.forEach(id => {
+
+    document.getElementById(id).checked =
+      data[id] || false;
+
+  });
+
+  updateProgress();
+}
+
+
+function updateMonthlySummary() {
+
+  let prefix =
+    "routine-" +
+    today.getFullYear() + "-" +
+    String(today.getMonth() + 1).padStart(2, "0");
+
+  let days = 0;
+  let completed = 0;
+  let total = 0;
+
+  for (let i = 1; i <= 31; i++) {
+
+    let key =
+      prefix + "-" +
+      String(i).padStart(2, "0");
+
+    let saved =
+      localStorage.getItem(key);
+
+    if (saved) {
+
+      days++;
+
+      let data = JSON.parse(saved);
+
+      tasks.forEach(id => {
+
+        total++;
+
+        if (data[id]) {
+          completed++;
+        }
+
+      });
+
+    }
+
+  }
+
+  let average =
+    total === 0
+      ? 0
+      : Math.round((completed / total) * 100);
+
+  document.getElementById("daysTracked").innerText =
+    days;
+
+  document.getElementById("completedTasks").innerText =
+    completed;
+
+  document.getElementById("totalTasks").innerText =
+    total;
+
+  document.getElementById("monthlyAverage").innerText =
+    average + "%";
+}
+
+
+loadToday();
+updateMonthlySummary();
+
+</script>
+
+</body>
+</html>
