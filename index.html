@@ -2,406 +2,3072 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0,
+      maximum-scale=1.0, user-scalable=no">
+
+<meta name="theme-color" content="#176b57">
+
 <title>My Daily Routine</title>
 
 <style>
+
+/* =========================
+   BASIC
+========================= */
+
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
-  color: #222;
+    margin: 0;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+    background: #f3f6f5;
+    color: #17201d;
+
+    transition:
+        background 0.3s,
+        color 0.3s;
 }
 
-header {
-  background: #1f6f5b;
-  color: white;
-  padding: 22px 18px;
-  text-align: center;
+button,
+input,
+select {
+    font-family: inherit;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 25px;
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    background: linear-gradient(
+        135deg,
+        #176b57,
+        #0f8a6d
+    );
+
+    color: white;
+
+    padding:
+        calc(22px + env(safe-area-inset-top))
+        20px
+        22px;
+
+    border-radius:
+        0
+        0
+        28px
+        28px;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,0.12);
 }
 
-header p {
-  margin: 7px 0 0;
-  opacity: 0.9;
+.header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
+
+.header h1 {
+    margin: 0;
+    font-size: 27px;
+    font-weight: 800;
+}
+
+.header p {
+    margin: 6px 0 0;
+    opacity: 0.88;
+    font-size: 14px;
+}
+
+.icon-button {
+    width: 44px;
+    height: 44px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.18);
+
+    color: white;
+
+    font-size: 20px;
+
+    cursor: pointer;
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.nav {
+    position: sticky;
+    bottom: 0;
+
+    z-index: 100;
+
+    display: flex;
+
+    background: rgba(255,255,255,0.96);
+
+    backdrop-filter: blur(15px);
+
+    border-top:
+        1px solid #e3e8e6;
+
+    padding:
+        8px
+        6px
+        calc(8px + env(safe-area-inset-bottom));
+
+    box-shadow:
+        0 -4px 20px rgba(0,0,0,0.06);
+}
+
+.nav button {
+    flex: 1;
+
+    border: none;
+    background: transparent;
+
+    color: #77817d;
+
+    padding: 8px 4px;
+
+    font-size: 11px;
+
+    cursor: pointer;
+}
+
+.nav button span {
+    display: block;
+    font-size: 21px;
+    margin-bottom: 3px;
+}
+
+.nav button.active {
+    color: #176b57;
+    font-weight: 700;
+}
+
+
+/* =========================
+   MAIN
+========================= */
 
 .container {
-  max-width: 600px;
-  margin: auto;
-  padding: 18px;
+    max-width: 700px;
+
+    margin: auto;
+
+    padding:
+        18px
+        16px
+        100px;
 }
+
+
+/* =========================
+   PAGE
+========================= */
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+
+/* =========================
+   CARD
+========================= */
 
 .card {
-  background: white;
-  border-radius: 16px;
-  padding: 18px;
-  margin-bottom: 16px;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    background: white;
+
+    border-radius: 20px;
+
+    padding: 18px;
+
+    margin-bottom: 16px;
+
+    box-shadow:
+        0 4px 18px rgba(0,0,0,0.06);
 }
 
-.date {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 15px;
+
+/* =========================
+   DATE
+========================= */
+
+.date-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.task {
-  display: flex;
-  align-items: center;
-  padding: 13px 5px;
-  border-bottom: 1px solid #eee;
+.date-title {
+    font-size: 17px;
+    font-weight: 800;
 }
 
-.task:last-child {
-  border-bottom: none;
+.date-subtitle {
+    color: #7b8581;
+    font-size: 13px;
+    margin-top: 4px;
 }
 
-.task input {
-  width: 21px;
-  height: 21px;
-  margin-right: 12px;
+
+/* =========================
+   PROGRESS
+========================= */
+
+.progress-section {
+    margin-top: 18px;
 }
 
-.task label {
-  font-size: 16px;
+.progress-row {
+    display: flex;
+    justify-content: space-between;
+
+    font-size: 13px;
+
+    margin-bottom: 8px;
 }
 
-.progress-box {
-  margin-top: 15px;
+.progress-number {
+    font-weight: 800;
 }
 
 .progress-bar {
-  height: 14px;
-  background: #e5e5e5;
-  border-radius: 10px;
-  overflow: hidden;
+    width: 100%;
+
+    height: 13px;
+
+    background: #e7ecea;
+
+    border-radius: 20px;
+
+    overflow: hidden;
 }
 
-.progress {
-  height: 100%;
-  width: 0%;
-  background: #1f6f5b;
-  transition: width 0.3s;
+.progress-fill {
+    height: 100%;
+
+    width: 0%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #176b57,
+            #25a57f
+        );
+
+    border-radius: 20px;
+
+    transition:
+        width 0.4s ease;
 }
 
-.percent {
-  text-align: center;
-  font-size: 22px;
-  font-weight: bold;
-  margin-top: 10px;
+
+/* =========================
+   TASK
+========================= */
+
+.task-list {
+    margin-top: 15px;
 }
 
-button {
-  width: 100%;
-  border: none;
-  border-radius: 12px;
-  padding: 14px;
-  font-size: 16px;
-  font-weight: bold;
-  background: #1f6f5b;
-  color: white;
-  margin-top: 10px;
+.task {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 14px 5px;
+
+    border-bottom:
+        1px solid #edf0ef;
+
+    transition:
+        background 0.2s;
 }
 
-button:active {
-  transform: scale(0.98);
+.task:last-child {
+    border-bottom: none;
 }
 
-.summary-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px solid #eee;
+.task.done {
+    opacity: 0.6;
 }
 
-.small {
-  color: #777;
-  font-size: 14px;
+.task-checkbox {
+    width: 24px;
+    height: 24px;
+
+    accent-color: #176b57;
+
+    cursor: pointer;
 }
+
+.task-content {
+    flex: 1;
+
+    min-width: 0;
+}
+
+.task-name {
+    font-size: 16px;
+
+    font-weight: 650;
+}
+
+.task.done .task-name {
+    text-decoration: line-through;
+}
+
+.task-meta {
+    display: flex;
+
+    gap: 8px;
+
+    margin-top: 4px;
+
+    color: #7b8581;
+
+    font-size: 12px;
+}
+
+.task-actions {
+    display: flex;
+
+    gap: 5px;
+}
+
+.small-button {
+    width: 34px;
+    height: 34px;
+
+    border: none;
+
+    background: #f0f4f2;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-size: 15px;
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
+.primary-button {
+    width: 100%;
+
+    border: none;
+
+    background:
+        linear-gradient(
+            135deg,
+            #176b57,
+            #0f8a6d
+        );
+
+    color: white;
+
+    padding: 14px;
+
+    border-radius: 14px;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    margin-top: 10px;
+}
+
+.secondary-button {
+    width: 100%;
+
+    border: none;
+
+    background: #edf3f1;
+
+    color: #176b57;
+
+    padding: 13px;
+
+    border-radius: 14px;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    margin-top: 10px;
+}
+
+.danger-button {
+    width: 100%;
+
+    border: none;
+
+    background: #fff0f0;
+
+    color: #c0392b;
+
+    padding: 13px;
+
+    border-radius: 14px;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    margin-top: 10px;
+}
+
+
+/* =========================
+   STAT GRID
+========================= */
+
+.stat-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 12px;
+
+    margin-bottom: 16px;
+}
+
+.stat {
+    background: white;
+
+    border-radius: 18px;
+
+    padding: 17px;
+
+    box-shadow:
+        0 4px 18px rgba(0,0,0,0.05);
+}
+
+.stat-icon {
+    font-size: 24px;
+}
+
+.stat-value {
+    font-size: 25px;
+
+    font-weight: 800;
+
+    margin-top: 6px;
+}
+
+.stat-label {
+    color: #7b8581;
+
+    font-size: 12px;
+
+    margin-top: 3px;
+}
+
+
+/* =========================
+   WEEK DAYS
+========================= */
+
+.week-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(7, 1fr);
+
+    gap: 6px;
+
+    margin-top: 15px;
+}
+
+.day-box {
+    text-align: center;
+
+    padding: 9px 2px;
+
+    background: #f1f5f3;
+
+    border-radius: 12px;
+}
+
+.day-name {
+    font-size: 10px;
+
+    color: #7b8581;
+}
+
+.day-percent {
+    font-size: 14px;
+
+    font-weight: 800;
+
+    margin-top: 5px;
+}
+
+
+/* =========================
+   HISTORY
+========================= */
+
+.history-item {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 14px 0;
+
+    border-bottom:
+        1px solid #edf0ef;
+}
+
+.history-date {
+    font-weight: 700;
+}
+
+.history-small {
+    color: #7b8581;
+
+    font-size: 12px;
+
+    margin-top: 4px;
+}
+
+.history-percent {
+    font-size: 17px;
+
+    font-weight: 800;
+
+    color: #176b57;
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+.modal {
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 200;
+
+    background:
+        rgba(0,0,0,0.45);
+
+    padding: 20px;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-box {
+    width: 100%;
+
+    max-width: 500px;
+
+    background: white;
+
+    border-radius: 22px;
+
+    padding: 20px;
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+}
+
+.modal-title {
+    font-size: 21px;
+
+    font-weight: 800;
+
+    margin-bottom: 15px;
+}
+
+.form-label {
+    display: block;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    margin:
+        13px
+        0
+        6px;
+}
+
+.form-input {
+    width: 100%;
+
+    padding: 13px;
+
+    border:
+        1px solid #dce4e1;
+
+    border-radius: 12px;
+
+    font-size: 15px;
+
+    outline: none;
+
+    background: white;
+}
+
+.form-input:focus {
+    border-color: #176b57;
+}
+
+.modal-buttons {
+    display: flex;
+
+    gap: 8px;
+
+    margin-top: 18px;
+}
+
+.modal-buttons button {
+    flex: 1;
+
+    margin: 0;
+}
+
+
+/* =========================
+   EMPTY
+========================= */
+
+.empty {
+    text-align: center;
+
+    color: #7b8581;
+
+    padding: 25px 10px;
+}
+
+
+/* =========================
+   DARK MODE
+========================= */
+
+body.dark {
+    background: #101715;
+
+    color: #edf4f1;
+}
+
+body.dark .card,
+body.dark .stat,
+body.dark .modal-box {
+    background: #18211e;
+
+    color: #edf4f1;
+}
+
+body.dark .task {
+    border-color: #26312d;
+}
+
+body.dark .task-meta,
+body.dark .date-subtitle,
+body.dark .stat-label,
+body.dark .history-small {
+    color: #9aa9a3;
+}
+
+body.dark .progress-bar {
+    background: #29342f;
+}
+
+body.dark .day-box {
+    background: #222d29;
+}
+
+body.dark .small-button,
+body.dark .secondary-button {
+    background: #26342f;
+
+    color: #8ce0c4;
+}
+
+body.dark .danger-button {
+    background: #352322;
+}
+
+body.dark .form-input {
+    background: #202a26;
+
+    color: white;
+
+    border-color: #34413c;
+}
+
+body.dark .nav {
+    background: rgba(24,33,30,0.96);
+
+    border-color: #29332f;
+}
+
+body.dark .nav button {
+    color: #93a29c;
+}
+
+body.dark .nav button.active {
+    color: #6ee0bb;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (min-width: 600px) {
+
+    .container {
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+
+    .stat-grid {
+        grid-template-columns:
+            repeat(4, 1fr);
+    }
+}
+
 </style>
 </head>
 
+
 <body>
 
-<header>
-  <h1>My Daily Routine</h1>
-  <p>Daily Routine & Monthly Performance</p>
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="header">
+
+    <div class="header-top">
+
+        <div>
+
+            <h1>My Routine</h1>
+
+            <p>
+                Build better days, one task at a time.
+            </p>
+
+        </div>
+
+        <button
+            class="icon-button"
+            onclick="toggleDarkMode()">
+
+            🌙
+
+        </button>
+
+    </div>
+
 </header>
 
-<div class="container">
 
-  <div class="card">
 
-    <div class="date" id="today"></div>
+<!-- =========================
+     MAIN
+========================= -->
 
-    <div class="task">
-      <input type="checkbox" id="prayer1">
-      <label for="prayer1">Fajr Prayer</label>
+<main class="container">
+
+
+<!-- =========================
+     TODAY PAGE
+========================= -->
+
+<section
+    id="todayPage"
+    class="page active">
+
+
+    <div class="card">
+
+        <div class="date-card">
+
+            <div>
+
+                <div
+                    class="date-title"
+                    id="todayDate">
+                </div>
+
+                <div
+                    class="date-subtitle"
+                    id="todaySubtitle">
+                </div>
+
+            </div>
+
+            <div style="font-size:30px;">
+                📅
+            </div>
+
+        </div>
+
+
+        <div class="progress-section">
+
+            <div class="progress-row">
+
+                <span>
+                    Today's progress
+                </span>
+
+                <span
+                    class="progress-number"
+                    id="todayPercent">
+                    0%
+                </span>
+
+            </div>
+
+
+            <div class="progress-bar">
+
+                <div
+                    class="progress-fill"
+                    id="todayProgress">
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
-    <div class="task">
-      <input type="checkbox" id="quran">
-      <label for="quran">Quran</label>
-    </div>
 
-    <div class="task">
-      <input type="checkbox" id="duas">
-      <label for="duas">Duas</label>
-    </div>
 
-    <div class="task">
-      <input type="checkbox" id="dhikr">
-      <label for="dhikr">Dhikr</label>
-    </div>
+    <div class="stat-grid">
 
-    <div class="task">
-      <input type="checkbox" id="study">
-      <label for="study">Study / Learning</label>
-    </div>
+        <div class="stat">
 
-    <div class="task">
-      <input type="checkbox" id="gym">
-      <label for="gym">Gym / Exercise</label>
-    </div>
+            <div class="stat-icon">
+                ✅
+            </div>
 
-    <div class="task">
-      <input type="checkbox" id="work">
-      <label for="work">Work / Career Tasks</label>
-    </div>
+            <div
+                class="stat-value"
+                id="completedToday">
+                0
+            </div>
 
-    <div class="task">
-      <input type="checkbox" id="other">
-      <label for="other">Other Important Task</label>
-    </div>
+            <div class="stat-label">
+                Completed
+            </div>
 
-    <div class="progress-box">
+        </div>
 
-      <div class="progress-bar">
-        <div class="progress" id="progress"></div>
-      </div>
 
-      <div class="percent" id="percent">0%</div>
+        <div class="stat">
+
+            <div class="stat-icon">
+                ⏳
+            </div>
+
+            <div
+                class="stat-value"
+                id="remainingToday">
+                0
+            </div>
+
+            <div class="stat-label">
+                Remaining
+            </div>
+
+        </div>
 
     </div>
 
-    <button onclick="saveToday()">
-      Save Today's Progress
+
+
+    <div class="card">
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        ">
+
+            <h2 style="margin:0;">
+                Today's Routine
+            </h2>
+
+            <button
+                class="small-button"
+                onclick="openAddModal()">
+
+                ➕
+
+            </button>
+
+        </div>
+
+
+        <div
+            class="task-list"
+            id="taskList">
+        </div>
+
+
+        <button
+            class="primary-button"
+            onclick="saveToday()">
+
+            💾 Save Today's Progress
+
+        </button>
+
+
+        <button
+            class="secondary-button"
+            onclick="resetToday()">
+
+            🔄 Reset Today
+
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     WEEK PAGE
+========================= -->
+
+<section
+    id="weekPage"
+    class="page">
+
+
+    <div class="card">
+
+        <h2>
+            📊 Weekly Performance
+        </h2>
+
+        <p class="small">
+            Your performance for the last 7 days.
+        </p>
+
+
+        <div
+            class="week-grid"
+            id="weekGrid">
+        </div>
+
+    </div>
+
+
+
+    <div class="stat-grid">
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                📈
+            </div>
+
+            <div
+                class="stat-value"
+                id="weekAverage">
+                0%
+            </div>
+
+            <div class="stat-label">
+                Weekly Average
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                🔥
+            </div>
+
+            <div
+                class="stat-value"
+                id="streak">
+                0
+            </div>
+
+            <div class="stat-label">
+                Day Streak
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     MONTH PAGE
+========================= -->
+
+<section
+    id="monthPage"
+    class="page">
+
+
+    <div class="card">
+
+        <h2>
+            📈 Monthly Performance
+        </h2>
+
+        <p class="small">
+            Your current month's progress.
+        </p>
+
+    </div>
+
+
+    <div class="stat-grid">
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                🎯
+            </div>
+
+            <div
+                class="stat-value"
+                id="monthAverage">
+                0%
+            </div>
+
+            <div class="stat-label">
+                Monthly Average
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                📅
+            </div>
+
+            <div
+                class="stat-value"
+                id="monthDays">
+                0
+            </div>
+
+            <div class="stat-label">
+                Days Tracked
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ✅
+            </div>
+
+            <div
+                class="stat-value"
+                id="monthCompleted">
+                0
+            </div>
+
+            <div class="stat-label">
+                Tasks Done
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                📋
+            </div>
+
+            <div
+                class="stat-value"
+                id="monthTotal">
+                0
+            </div>
+
+            <div class="stat-label">
+                Total Tasks
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="card">
+
+        <h3>
+            Monthly Summary
+        </h3>
+
+        <div
+            id="monthMessage"
+            class="empty">
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     HISTORY PAGE
+========================= -->
+
+<section
+    id="historyPage"
+    class="page">
+
+
+    <div class="card">
+
+        <h2>
+            📜 History
+        </h2>
+
+        <p class="small">
+            Your saved daily performance.
+        </p>
+
+
+        <div
+            id="historyList">
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     SETTINGS PAGE
+========================= -->
+
+<section
+    id="settingsPage"
+    class="page">
+
+
+    <div class="card">
+
+        <h2>
+            ⚙️ Settings
+        </h2>
+
+
+        <button
+            class="secondary-button"
+            onclick="openAddModal()">
+
+            ➕ Add New Routine
+
+        </button>
+
+
+        <button
+            class="secondary-button"
+            onclick="exportData()">
+
+            📤 Export My Data
+
+        </button>
+
+
+        <button
+            class="danger-button"
+            onclick="clearAllData()">
+
+            🗑️ Clear All Data
+
+        </button>
+
+    </div>
+
+
+
+    <div class="card">
+
+        <h3>
+            About
+        </h3>
+
+        <p class="small">
+            My Daily Routine helps you track your
+            daily habits, weekly performance and
+            monthly progress.
+        </p>
+
+        <p class="small">
+            Version 2.0
+        </p>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+
+<!-- =========================
+     BOTTOM NAV
+========================= -->
+
+<nav class="nav">
+
+    <button
+        class="active"
+        onclick="showPage('todayPage', this)">
+
+        <span>🏠</span>
+        Today
+
     </button>
 
-  </div>
+
+    <button
+        onclick="showPage('weekPage', this)">
+
+        <span>📊</span>
+        Week
+
+    </button>
 
 
-  <div class="card">
+    <button
+        onclick="showPage('monthPage', this)">
 
-    <h2>Monthly Performance</h2>
+        <span>📈</span>
+        Month
 
-    <div class="summary-item">
-      <span>Days Tracked</span>
-      <strong id="daysTracked">0</strong>
+    </button>
+
+
+    <button
+        onclick="showPage('historyPage', this)">
+
+        <span>📜</span>
+        History
+
+    </button>
+
+
+    <button
+        onclick="showPage('settingsPage', this)">
+
+        <span>⚙️</span>
+        Settings
+
+    </button>
+
+</nav>
+
+
+
+<!-- =========================
+     ADD ROUTINE MODAL
+========================= -->
+
+<div
+    class="modal"
+    id="routineModal">
+
+
+    <div class="modal-box">
+
+
+        <div class="modal-title">
+
+            <span id="modalTitle">
+                Add Routine
+            </span>
+
+        </div>
+
+
+        <label class="form-label">
+            Routine name
+        </label>
+
+        <input
+            class="form-input"
+            id="routineName"
+            type="text"
+            placeholder="Example: Fajr Prayer">
+
+
+        <label class="form-label">
+            Time
+        </label>
+
+        <input
+            class="form-input"
+            id="routineTime"
+            type="time">
+
+
+        <div class="modal-buttons">
+
+            <button
+                class="secondary-button"
+                onclick="closeModal()">
+
+                Cancel
+
+            </button>
+
+
+            <button
+                class="primary-button"
+                onclick="saveRoutine()">
+
+                Save
+
+            </button>
+
+        </div>
+
     </div>
-
-    <div class="summary-item">
-      <span>Completed Tasks</span>
-      <strong id="completedTasks">0</strong>
-    </div>
-
-    <div class="summary-item">
-      <span>Total Tasks</span>
-      <strong id="totalTasks">0</strong>
-    </div>
-
-    <div class="summary-item">
-      <span>Monthly Average</span>
-      <strong id="monthlyAverage">0%</strong>
-    </div>
-
-    <p class="small">
-      Your progress is saved on this device.
-    </p>
-
-  </div>
 
 </div>
 
 
+
 <script>
 
-const tasks = [
-  "prayer1",
-  "quran",
-  "duas",
-  "dhikr",
-  "study",
-  "gym",
-  "work",
-  "other"
-];
+/* ========================================
+   DEFAULT ROUTINES
+======================================== */
 
-const today = new Date();
+const defaultRoutines = [
 
-const dateKey =
-  today.getFullYear() + "-" +
-  String(today.getMonth() + 1).padStart(2, "0") + "-" +
-  String(today.getDate()).padStart(2, "0");
+    {
+        id: "fajr",
+        name: "Fajr Prayer",
+        time: "05:00"
+    },
 
+    {
+        id: "quran",
+        name: "Quran",
+        time: "05:30"
+    },
 
-document.getElementById("today").innerText =
-  today.toLocaleDateString("en-US", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric"
-  });
+    {
+        id: "duas",
+        name: "Duas",
+        time: "06:00"
+    },
 
+    {
+        id: "dhikr",
+        name: "Dhikr",
+        time: "06:15"
+    },
 
-function updateProgress() {
+    {
+        id: "study",
+        name: "Study / Learning",
+        time: "20:00"
+    },
 
-  let completed = 0;
+    {
+        id: "gym",
+        name: "Gym / Exercise",
+        time: "19:00"
+    },
 
-  tasks.forEach(id => {
+    {
+        id: "work",
+        name: "Work / Career Tasks",
+        time: "08:00"
+    },
 
-    if (document.getElementById(id).checked) {
-      completed++;
+    {
+        id: "other",
+        name: "Other Important Task",
+        time: "21:00"
     }
 
-  });
-
-  let percentage =
-    Math.round((completed / tasks.length) * 100);
-
-  document.getElementById("progress").style.width =
-    percentage + "%";
-
-  document.getElementById("percent").innerText =
-    percentage + "%";
-}
+];
 
 
-tasks.forEach(id => {
+/* ========================================
+   STORAGE
+======================================== */
 
-  document.getElementById(id)
-    .addEventListener("change", updateProgress);
+function getRoutines() {
 
-});
-
-
-function saveToday() {
-
-  let data = {};
-
-  tasks.forEach(id => {
-
-    data[id] =
-      document.getElementById(id).checked;
-
-  });
-
-  localStorage.setItem(
-    "routine-" + dateKey,
-    JSON.stringify(data)
-  );
-
-  updateMonthlySummary();
-
-  alert("Today's progress saved! ✅");
-}
-
-
-function loadToday() {
-
-  let saved =
-    localStorage.getItem("routine-" + dateKey);
-
-  if (!saved) {
-
-    updateProgress();
-
-    return;
-  }
-
-  let data = JSON.parse(saved);
-
-  tasks.forEach(id => {
-
-    document.getElementById(id).checked =
-      data[id] || false;
-
-  });
-
-  updateProgress();
-}
-
-
-function updateMonthlySummary() {
-
-  let prefix =
-    "routine-" +
-    today.getFullYear() + "-" +
-    String(today.getMonth() + 1).padStart(2, "0");
-
-  let days = 0;
-  let completed = 0;
-  let total = 0;
-
-  for (let i = 1; i <= 31; i++) {
-
-    let key =
-      prefix + "-" +
-      String(i).padStart(2, "0");
-
-    let saved =
-      localStorage.getItem(key);
+    const saved =
+        localStorage.getItem(
+            "myRoutineList"
+        );
 
     if (saved) {
 
-      days++;
-
-      let data = JSON.parse(saved);
-
-      tasks.forEach(id => {
-
-        total++;
-
-        if (data[id]) {
-          completed++;
-        }
-
-      });
+        return JSON.parse(saved);
 
     }
 
-  }
+    localStorage.setItem(
+        "myRoutineList",
+        JSON.stringify(defaultRoutines)
+    );
 
-  let average =
-    total === 0
-      ? 0
-      : Math.round((completed / total) * 100);
-
-  document.getElementById("daysTracked").innerText =
-    days;
-
-  document.getElementById("completedTasks").innerText =
-    completed;
-
-  document.getElementById("totalTasks").innerText =
-    total;
-
-  document.getElementById("monthlyAverage").innerText =
-    average + "%";
+    return defaultRoutines;
 }
 
 
-loadToday();
-updateMonthlySummary();
+function saveRoutines(routines) {
+
+    localStorage.setItem(
+        "myRoutineList",
+        JSON.stringify(routines)
+    );
+
+}
+
+
+/* ========================================
+   DATE FUNCTIONS
+======================================== */
+
+function getDateKey(date = new Date()) {
+
+    return date.getFullYear() +
+        "-" +
+        String(
+            date.getMonth() + 1
+        ).padStart(2, "0") +
+        "-" +
+        String(
+            date.getDate()
+        ).padStart(2, "0");
+
+}
+
+
+function formatDate(date) {
+
+    return date.toLocaleDateString(
+        "en-US",
+        {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        }
+    );
+
+}
+
+
+/* ========================================
+   TODAY
+======================================== */
+
+function updateTodayDate() {
+
+    const today =
+        new Date();
+
+    document.getElementById(
+        "todayDate"
+    ).innerText =
+        formatDate(today);
+
+    document.getElementById(
+        "todaySubtitle"
+    ).innerText =
+        "Keep going. Small steps every day.";
+
+}
+
+
+/* ========================================
+   TASK DATA
+======================================== */
+
+function getTodayData() {
+
+    const key =
+        "routineData-" +
+        getDateKey();
+
+    const saved =
+        localStorage.getItem(key);
+
+    if (saved) {
+
+        return JSON.parse(saved);
+
+    }
+
+    return {};
+
+}
+
+
+function saveTodayData(data) {
+
+    const key =
+        "routineData-" +
+        getDateKey();
+
+    localStorage.setItem(
+        key,
+        JSON.stringify(data)
+    );
+
+}
+
+
+/* ========================================
+   RENDER TASKS
+======================================== */
+
+function renderTasks() {
+
+    const routines =
+        getRoutines();
+
+    const data =
+        getTodayData();
+
+    const list =
+        document.getElementById(
+            "taskList"
+        );
+
+    list.innerHTML = "";
+
+
+    if (routines.length === 0) {
+
+        list.innerHTML = `
+            <div class="empty">
+                No routines yet.<br>
+                Tap ➕ to add one.
+            </div>
+        `;
+
+        updateTodayStats();
+
+        return;
+    }
+
+
+    routines.forEach(
+        routine => {
+
+            const done =
+                data[routine.id] === true;
+
+
+            const task =
+                document.createElement(
+                    "div"
+                );
+
+            task.className =
+                "task" +
+                (done ? " done" : "");
+
+
+            task.innerHTML = `
+
+                <input
+                    class="task-checkbox"
+                    type="checkbox"
+                    ${done ? "checked" : ""}
+                    onchange="
+                        toggleTask(
+                            '${routine.id}'
+                        )
+                    ">
+
+
+                <div class="task-content">
+
+                    <div class="task-name">
+                        ${escapeHtml(
+                            routine.name
+                        )}
+                    </div>
+
+                    <div class="task-meta">
+
+                        <span>
+                            ⏰
+                            ${
+                                routine.time
+                                ? formatTime(
+                                    routine.time
+                                )
+                                : "No time"
+                            }
+                        </span>
+
+                        <span>
+                            ${
+                                done
+                                ? "✓ Completed"
+                                : "○ Not completed"
+                            }
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="task-actions">
+
+                    <button
+                        class="small-button"
+                        onclick="
+                            editRoutine(
+                                '${routine.id}'
+                            )
+                        ">
+
+                        ✏️
+
+                    </button>
+
+
+                    <button
+                        class="small-button"
+                        onclick="
+                            deleteRoutine(
+                                '${routine.id}'
+                            )
+                        ">
+
+                        🗑️
+
+                    </button>
+
+                </div>
+
+            `;
+
+
+            list.appendChild(task);
+
+        }
+    );
+
+
+    updateTodayStats();
+
+}
+
+
+/* ========================================
+   ESCAPE HTML
+======================================== */
+
+function escapeHtml(text) {
+
+    return text
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* ========================================
+   TIME FORMAT
+======================================== */
+
+function formatTime(time) {
+
+    if (!time) {
+
+        return "No time";
+
+    }
+
+
+    const parts =
+        time.split(":");
+
+    let hour =
+        parseInt(parts[0]);
+
+    const minute =
+        parts[1];
+
+
+    const ampm =
+        hour >= 12
+        ? "PM"
+        : "AM";
+
+
+    hour =
+        hour % 12 || 12;
+
+
+    return (
+        hour +
+        ":" +
+        minute +
+        " " +
+        ampm
+    );
+
+}
+
+
+/* ========================================
+   TOGGLE TASK
+======================================== */
+
+function toggleTask(id) {
+
+    const data =
+        getTodayData();
+
+    data[id] =
+        !data[id];
+
+    saveTodayData(data);
+
+    renderTasks();
+
+    updateAllStatistics();
+
+}
+
+
+/* ========================================
+   TODAY STATS
+======================================== */
+
+function updateTodayStats() {
+
+    const routines =
+        getRoutines();
+
+    const data =
+        getTodayData();
+
+
+    let completed = 0;
+
+
+    routines.forEach(
+        routine => {
+
+            if (
+                data[routine.id]
+            ) {
+
+                completed++;
+
+            }
+
+        }
+    );
+
+
+    const total =
+        routines.length;
+
+
+    const remaining =
+        Math.max(
+            total - completed,
+            0
+        );
+
+
+    const percent =
+        total === 0
+        ? 0
+        : Math.round(
+            (
+                completed /
+                total
+            ) * 100
+        );
+
+
+    document.getElementById(
+        "completedToday"
+    ).innerText =
+        completed;
+
+
+    document.getElementById(
+        "remainingToday"
+    ).innerText =
+        remaining;
+
+
+    document.getElementById(
+        "todayPercent"
+    ).innerText =
+        percent + "%";
+
+
+    document.getElementById(
+        "todayProgress"
+    ).style.width =
+        percent + "%";
+
+}
+
+
+/* ========================================
+   SAVE TODAY
+======================================== */
+
+function saveToday() {
+
+    const data =
+        getTodayData();
+
+    saveTodayData(data);
+
+    updateAllStatistics();
+
+    alert(
+        "Today's progress has been saved! ✅"
+    );
+
+}
+
+
+/* ========================================
+   RESET TODAY
+======================================== */
+
+function resetToday() {
+
+    const confirmReset =
+        confirm(
+            "Reset all of today's tasks?"
+        );
+
+    if (!confirmReset) {
+
+        return;
+
+    }
+
+
+    localStorage.removeItem(
+        "routineData-" +
+        getDateKey()
+    );
+
+    renderTasks();
+
+    updateAllStatistics();
+
+}
+
+
+/* ========================================
+   ADD ROUTINE
+======================================== */
+
+let editingRoutineId =
+    null;
+
+
+function openAddModal() {
+
+    editingRoutineId =
+        null;
+
+    document.getElementById(
+        "modalTitle"
+    ).innerText =
+        "Add Routine";
+
+
+    document.getElementById(
+        "routineName"
+    ).value = "";
+
+
+    document.getElementById(
+        "routineTime"
+    ).value = "";
+
+
+    document.getElementById(
+        "routineModal"
+    ).classList.add(
+        "show"
+    );
+
+}
+
+
+function closeModal() {
+
+    document.getElementById(
+        "routineModal"
+    ).classList.remove(
+        "show"
+    );
+
+}
+
+
+/* ========================================
+   SAVE ROUTINE
+======================================== */
+
+function saveRoutine() {
+
+    const name =
+        document.getElementById(
+            "routineName"
+        ).value.trim();
+
+
+    const time =
+        document.getElementById(
+            "routineTime"
+        ).value;
+
+
+    if (!name) {
+
+        alert(
+            "Please enter a routine name."
+        );
+
+        return;
+
+    }
+
+
+    let routines =
+        getRoutines();
+
+
+    if (editingRoutineId) {
+
+        routines =
+            routines.map(
+                routine => {
+
+                    if (
+                        routine.id ===
+                        editingRoutineId
+                    ) {
+
+                        return {
+
+                            ...routine,
+
+                            name: name,
+
+                            time: time
+
+                        };
+
+                    }
+
+                    return routine;
+
+                }
+            );
+
+    } else {
+
+        routines.push({
+
+            id:
+                "routine-" +
+                Date.now(),
+
+            name: name,
+
+            time: time
+
+        });
+
+    }
+
+
+    saveRoutines(routines);
+
+    closeModal();
+
+    renderTasks();
+
+    updateAllStatistics();
+
+}
+
+
+/* ========================================
+   EDIT ROUTINE
+======================================== */
+
+function editRoutine(id) {
+
+    const routines =
+        getRoutines();
+
+
+    const routine =
+        routines.find(
+            item =>
+                item.id === id
+        );
+
+
+    if (!routine) {
+
+        return;
+
+    }
+
+
+    editingRoutineId =
+        id;
+
+
+    document.getElementById(
+        "modalTitle"
+    ).innerText =
+        "Edit Routine";
+
+
+    document.getElementById(
+        "routineName"
+    ).value =
+        routine.name;
+
+
+    document.getElementById(
+        "routineTime"
+    ).value =
+        routine.time || "";
+
+
+    document.getElementById(
+        "routineModal"
+    ).classList.add(
+        "show"
+    );
+
+}
+
+
+/* ========================================
+   DELETE ROUTINE
+======================================== */
+
+function deleteRoutine(id) {
+
+    const routines =
+        getRoutines();
+
+
+    const routine =
+        routines.find(
+            item =>
+                item.id === id
+        );
+
+
+    if (!routine) {
+
+        return;
+
+    }
+
+
+    const confirmDelete =
+        confirm(
+            "Delete " +
+            routine.name +
+            "?"
+        );
+
+
+    if (!confirmDelete) {
+
+        return;
+
+    }
+
+
+    const newRoutines =
+        routines.filter(
+            item =>
+                item.id !== id
+        );
+
+
+    saveRoutines(
+        newRoutines
+    );
+
+
+    renderTasks();
+
+    updateAllStatistics();
+
+}
+
+
+/* ========================================
+   PAGE NAVIGATION
+======================================== */
+
+function showPage(
+    pageId,
+    button
+) {
+
+    document
+        .querySelectorAll(
+            ".page"
+        )
+        .forEach(
+            page => {
+
+                page.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+
+    document.getElementById(
+        pageId
+    ).classList.add(
+        "active"
+    );
+
+
+    document
+        .querySelectorAll(
+            ".nav button"
+        )
+        .forEach(
+            btn => {
+
+                btn.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+
+    button.classList.add(
+        "active"
+    );
+
+
+    updateAllStatistics();
+
+    window.scrollTo(
+        0,
+        0
+    );
+
+}
+
+
+/* ========================================
+   WEEKLY PERFORMANCE
+======================================== */
+
+function getDayPercentage(date) {
+
+    const routines =
+        getRoutines();
+
+
+    const key =
+        "routineData-" +
+        getDateKey(date);
+
+
+    const saved =
+        localStorage.getItem(key);
+
+
+    if (!saved) {
+
+        return null;
+
+    }
+
+
+    const data =
+        JSON.parse(saved);
+
+
+    let completed = 0;
+
+
+    routines.forEach(
+        routine => {
+
+            if (
+                data[routine.id]
+            ) {
+
+                completed++;
+
+            }
+
+        }
+    );
+
+
+    if (
+        routines.length === 0
+    ) {
+
+        return 0;
+
+    }
+
+
+    return Math.round(
+        (
+            completed /
+            routines.length
+        ) * 100
+    );
+
+}
+
+
+function updateWeeklyStats() {
+
+    const grid =
+        document.getElementById(
+            "weekGrid"
+        );
+
+
+    grid.innerHTML = "";
+
+
+    let total = 0;
+
+    let count = 0;
+
+
+    for (
+        let i = 6;
+        i >= 0;
+        i--
+    ) {
+
+        const date =
+            new Date();
+
+
+        date.setDate(
+            date.getDate() - i
+        );
+
+
+        const percent =
+            getDayPercentage(
+                date
+            );
+
+
+        if (
+            percent !== null
+        ) {
+
+            total += percent;
+
+            count++;
+
+        }
+
+
+        const dayBox =
+            document.createElement(
+                "div"
+            );
+
+
+        dayBox.className =
+            "day-box";
+
+
+        const dayName =
+            date.toLocaleDateString(
+                "en-US",
+                {
+                    weekday: "short"
+                }
+            );
+
+
+        dayBox.innerHTML = `
+
+            <div class="day-name">
+                ${dayName}
+            </div>
+
+            <div class="day-percent">
+
+                ${
+                    percent === null
+                    ? "—"
+                    : percent + "%"
+                }
+
+            </div>
+
+        `;
+
+
+        grid.appendChild(
+            dayBox
+        );
+
+    }
+
+
+    const average =
+        count === 0
+        ? 0
+        : Math.round(
+            total / count
+        );
+
+
+    document.getElementById(
+        "weekAverage"
+    ).innerText =
+        average + "%";
+
+
+    updateStreak();
+
+}
+
+
+/* ========================================
+   STREAK
+======================================== */
+
+function updateStreak() {
+
+    let streak = 0;
+
+
+    for (
+        let i = 0;
+        i < 365;
+        i++
+    ) {
+
+        const date =
+            new Date();
+
+
+        date.setDate(
+            date.getDate() - i
+        );
+
+
+        const percent =
+            getDayPercentage(
+                date
+            );
+
+
+        if (
+            percent === null
+        ) {
+
+            if (i === 0) {
+
+                continue;
+
+            }
+
+            break;
+
+        }
+
+
+        if (
+            percent >= 100
+        ) {
+
+            streak++;
+
+        } else {
+
+            break;
+
+        }
+
+    }
+
+
+    document.getElementById(
+        "streak"
+    ).innerText =
+        streak;
+
+}
+
+
+/* ========================================
+   MONTHLY PERFORMANCE
+======================================== */
+
+function updateMonthlyStats() {
+
+    const routines =
+        getRoutines();
+
+
+    const now =
+        new Date();
+
+
+    const year =
+        now.getFullYear();
+
+
+    const month =
+        now.getMonth();
+
+
+    const daysInMonth =
+        new Date(
+            year,
+            month + 1,
+            0
+        ).getDate();
+
+
+    let daysTracked = 0;
+
+    let completed = 0;
+
+    let total = 0;
+
+
+    for (
+        let day = 1;
+        day <= daysInMonth;
+        day++
+    ) {
+
+        const date =
+            new Date(
+                year,
+                month,
+                day
+            );
+
+
+        const key =
+            "routineData-" +
+            getDateKey(date);
+
+
+        const saved =
+            localStorage.getItem(
+                key
+            );
+
+
+        if (!saved) {
+
+            continue;
+
+        }
+
+
+        daysTracked++;
+
+
+        const data =
+            JSON.parse(saved);
+
+
+        routines.forEach(
+            routine => {
+
+                total++;
+
+                if (
+                    data[routine.id]
+                ) {
+
+                    completed++;
+
+                }
+
+            }
+        );
+
+    }
+
+
+    const average =
+        total === 0
+        ? 0
+        : Math.round(
+            (
+                completed /
+                total
+            ) * 100
+        );
+
+
+    document.getElementById(
+        "monthAverage"
+    ).innerText =
+        average + "%";
+
+
+    document.getElementById(
+        "monthDays"
+    ).innerText =
+        daysTracked;
+
+
+    document.getElementById(
+        "monthCompleted"
+    ).innerText =
+        completed;
+
+
+    document.getElementById(
+        "monthTotal"
+    ).innerText =
+        total;
+
+
+    let message = "";
+
+
+    if (daysTracked === 0) {
+
+        message =
+            "Start tracking today. Your monthly performance will appear here.";
+
+    } else if (average >= 90) {
+
+        message =
+            "Excellent consistency this month! 🌟";
+
+    } else if (average >= 70) {
+
+        message =
+            "Good progress. Keep building your routine. 💪";
+
+    } else if (average >= 50) {
+
+        message =
+            "You're making progress. Try to stay consistent. 👍";
+
+    } else {
+
+        message =
+            "Keep going. Tomorrow is another opportunity. 🌱";
+
+    }
+
+
+    document.getElementById(
+        "monthMessage"
+    ).innerText =
+        message;
+
+}
+
+
+/* ========================================
+   HISTORY
+======================================== */
+
+function updateHistory() {
+
+    const list =
+        document.getElementById(
+            "historyList"
+        );
+
+
+    list.innerHTML = "";
+
+
+    const routines =
+        getRoutines();
+
+
+    let found = 0;
+
+
+    for (
+        let i = 0;
+        i < 60;
+        i++
+    ) {
+
+        const date =
+            new Date();
+
+
+        date.setDate(
+            date.getDate() - i
+        );
+
+
+        const key =
+            "routineData-" +
+            getDateKey(date);
+
+
+        const saved =
+            localStorage.getItem(
+                key
+            );
+
+
+        if (!saved) {
+
+            continue;
+
+        }
+
+
+        found++;
+
+
+        const data =
+            JSON.parse(saved);
+
+
+        let completed = 0;
+
+
+        routines.forEach(
+            routine => {
+
+                if (
+                    data[routine.id]
+                ) {
+
+                    completed++;
+
+                }
+
+            }
+        );
+
+
+        const percent =
+            routines.length === 0
+            ? 0
+            : Math.round(
+                (
+                    completed /
+                    routines.length
+                ) * 100
+            );
+
+
+        const item =
+            document.createElement(
+                "div"
+            );
+
+
+        item.className =
+            "history-item";
+
+
+        item.innerHTML = `
+
+            <div>
+
+                <div class="history-date">
+
+                    ${
+                        date.toLocaleDateString(
+                            "en-US",
+                            {
+                                weekday: "short",
+                                month: "short",
+                                day: "numeric",
+                                year: "numeric"
+                            }
+                        )
+                    }
+
+                </div>
+
+                <div class="history-small">
+
+                    ${completed}
+                    of
+                    ${routines.length}
+                    tasks completed
+
+                </div>
+
+            </div>
+
+
+            <div class="history-percent">
+
+                ${percent}%
+
+            </div>
+
+        `;
+
+
+        list.appendChild(
+            item
+        );
+
+    }
+
+
+    if (found === 0) {
+
+        list.innerHTML = `
+            <div class="empty">
+                No saved days yet.
+            </div>
+        `;
+
+    }
+
+}
+
+
+/* ========================================
+   DARK MODE
+======================================== */
+
+function toggleDarkMode() {
+
+    document.body.classList.toggle(
+        "dark"
+    );
+
+
+    localStorage.setItem(
+        "darkMode",
+        document.body.classList.contains(
+            "dark"
+        )
+            ? "on"
+            : "off"
+    );
+
+}
+
+
+function loadDarkMode() {
+
+    const saved =
+        localStorage.getItem(
+            "darkMode"
+        );
+
+
+    if (saved === "on") {
+
+        document.body.classList.add(
+            "dark"
+        );
+
+    }
+
+}
+
+
+/* ========================================
+   EXPORT DATA
+======================================== */
+
+function exportData() {
+
+    const routines =
+        getRoutines();
+
+
+    const data = {
+
+        routines: routines,
+
+        exportedAt:
+            new Date().toISOString(),
+
+        localStorageData: {}
+
+    };
+
+
+    for (
+        let i = 0;
+        i < localStorage.length;
+        i++
+    ) {
+
+        const key =
+            localStorage.key(i);
+
+
+        if (
+            key.startsWith(
+                "routineData-"
+            )
+        ) {
+
+            data.localStorageData[
+                key
+            ] =
+                localStorage.getItem(
+                    key
+                );
+
+        }
+
+    }
+
+
+    const blob =
+        new Blob(
+            [
+                JSON.stringify(
+                    data,
+                    null,
+                    2
+                )
+            ],
+            {
+                type:
+                    "application/json"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(
+            blob
+        );
+
+
+    const a =
+        document.createElement(
+            "a"
+        );
+
+
+    a.href = url;
+
+    a.download =
+        "my-routine-backup.json";
+
+
+    a.click();
+
+
+    URL.revokeObjectURL(
+        url
+    );
+
+}
+
+
+/* ========================================
+   CLEAR ALL
+======================================== */
+
+function clearAllData() {
+
+    const answer =
+        confirm(
+            "This will delete your saved routine progress and custom routines. Continue?"
+        );
+
+
+    if (!answer) {
+
+        return;
+
+    }
+
+
+    localStorage.clear();
+
+
+    location.reload();
+
+}
+
+
+/* ========================================
+   UPDATE EVERYTHING
+======================================== */
+
+function updateAllStatistics() {
+
+    updateTodayStats();
+
+    updateWeeklyStats();
+
+    updateMonthlyStats();
+
+    updateHistory();
+
+}
+
+
+/* ========================================
+   INITIALIZE
+======================================== */
+
+updateTodayDate();
+
+loadDarkMode();
+
+renderTasks();
+
+updateAllStatistics();
+
+
+/* ========================================
+   CLOSE MODAL WHEN OUTSIDE CLICKED
+======================================== */
+
+document.getElementById(
+    "routineModal"
+).addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            event.target === this
+        ) {
+
+            closeModal();
+
+        }
+
+    }
+);
 
 </script>
 
