@@ -1,346 +1,568 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 <meta name="theme-color" content="#111827">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="MyDay">
-<link rel="manifest" href="manifest.json">
 
 <title>MyDay</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
 }
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
-               "Segoe UI", sans-serif;
-  background: #f3f4f6;
-  color: #111827;
-  padding-bottom: 85px;
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;
+  background:#f4f5f7;
+  color:#111827;
+  padding-bottom:90px;
 }
 
-body.dark {
-  background: #111827;
-  color: #f9fafb;
+body.dark{
+  background:#111827;
+  color:#f9fafb;
 }
 
-.app {
-  max-width: 600px;
-  margin: auto;
+.app{
+  max-width:650px;
+  margin:auto;
 }
 
-.header {
-  padding: 25px 20px 15px;
-  background: white;
-  position: sticky;
-  top: 0;
-  z-index: 10;
+/* HEADER */
+
+.header{
+  position:sticky;
+  top:0;
+  z-index:50;
+  padding:22px 18px 16px;
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(15px);
+  border-bottom:1px solid #eee;
 }
 
-.dark .header {
-  background: #1f2937;
+.dark .header{
+  background:rgba(31,41,55,.95);
+  border-color:#374151;
 }
 
-.header-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.header-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 }
 
-.logo {
-  font-size: 30px;
-  font-weight: 800;
+.logo{
+  font-size:30px;
+  font-weight:800;
 }
 
-.date {
-  color: #6b7280;
-  font-size: 14px;
-  margin-top: 4px;
+.date{
+  color:#6b7280;
+  font-size:13px;
+  margin-top:3px;
 }
 
-.card {
-  background: white;
-  margin: 14px 16px;
-  padding: 18px;
-  border-radius: 20px;
-  box-shadow: 0 4px 18px rgba(0,0,0,.05);
+.icon-btn{
+  border:0;
+  background:#f1f3f5;
+  border-radius:13px;
+  padding:10px 12px;
+  font-size:18px;
+  cursor:pointer;
 }
 
-.dark .card {
-  background: #1f2937;
+.dark .icon-btn{
+  background:#374151;
+  color:white;
 }
 
-.progress-number {
-  font-size: 34px;
-  font-weight: 800;
+/* PAGES */
+
+.page{
+  display:none;
 }
 
-.progress-bar {
-  height: 9px;
-  background: #e5e7eb;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-top: 12px;
+.page.active{
+  display:block;
 }
 
-.progress-fill {
-  height: 100%;
-  width: 0%;
-  background: #2563eb;
-  transition: .3s;
+/* CARDS */
+
+.card{
+  background:white;
+  margin:15px;
+  padding:18px;
+  border-radius:22px;
+  box-shadow:0 4px 18px rgba(0,0,0,.05);
 }
 
-.stats {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 15px;
-  font-size: 13px;
+.dark .card{
+  background:#1f2937;
 }
 
-.task {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 15px 0;
-  border-bottom: 1px solid #e5e7eb;
+/* PROGRESS */
+
+.progress-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 }
 
-.dark .task {
-  border-color: #374151;
+.progress-percent{
+  font-size:36px;
+  font-weight:800;
 }
 
-.task:last-child {
-  border-bottom: none;
+.progress-label{
+  color:#6b7280;
+  font-size:13px;
 }
 
-.task-info {
-  flex: 1;
+.progress-bar{
+  height:10px;
+  background:#e5e7eb;
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:13px;
 }
 
-.task-name {
-  font-weight: 700;
-  font-size: 16px;
+.progress-fill{
+  height:100%;
+  width:0%;
+  background:#2563eb;
+  border-radius:20px;
+  transition:.3s;
 }
 
-.task-time {
-  font-size: 12px;
-  color: #6b7280;
-  margin-top: 4px;
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:14px;
 }
 
-.status-buttons {
-  display: flex;
-  gap: 5px;
+.stat{
+  text-align:center;
+  background:#f8fafc;
+  padding:10px 4px;
+  border-radius:13px;
 }
 
-.status-btn {
-  border: none;
-  padding: 7px 9px;
-  border-radius: 9px;
-  font-size: 12px;
-  cursor: pointer;
+.dark .stat{
+  background:#374151;
 }
 
-.pending {
-  background: #f3f4f6;
+.stat-number{
+  font-size:20px;
+  font-weight:800;
 }
 
-.done {
-  background: #dcfce7;
-  color: #166534;
+.stat-label{
+  font-size:11px;
+  color:#6b7280;
 }
 
-.didnt {
-  background: #fee2e2;
-  color: #991b1b;
+/* TASK */
+
+.task{
+  padding:16px 0;
+  border-bottom:1px solid #e5e7eb;
 }
 
-.dark .pending {
-  background: #374151;
-  color: white;
+.dark .task{
+  border-color:#374151;
 }
 
-.add-btn {
-  width: calc(100% - 32px);
-  margin: 8px 16px;
-  padding: 15px;
-  border: none;
-  border-radius: 16px;
-  background: #2563eb;
-  color: white;
-  font-size: 16px;
-  font-weight: 700;
+.task:last-child{
+  border-bottom:0;
 }
 
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 72px;
-  background: rgba(255,255,255,.95);
-  backdrop-filter: blur(15px);
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  border-top: 1px solid #ddd;
-  z-index: 100;
+.task-main{
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
 }
 
-.dark .bottom-nav {
-  background: rgba(31,41,55,.95);
-  border-color: #374151;
+.photo{
+  width:55px;
+  height:55px;
+  border-radius:15px;
+  object-fit:cover;
+  background:#e5e7eb;
+  flex-shrink:0;
 }
 
-.nav-btn {
-  background: none;
-  border: none;
-  font-size: 11px;
-  color: #6b7280;
+.photo-placeholder{
+  width:55px;
+  height:55px;
+  border-radius:15px;
+  background:#eef2ff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+  flex-shrink:0;
 }
 
-.nav-btn.active {
-  color: #2563eb;
-  font-weight: 700;
+.dark .photo-placeholder{
+  background:#374151;
 }
 
-.nav-icon {
-  display: block;
-  font-size: 22px;
-  margin-bottom: 2px;
+.task-info{
+  flex:1;
+  min-width:0;
 }
 
-.section {
-  display: none;
+.task-name{
+  font-size:17px;
+  font-weight:750;
 }
 
-.section.active {
-  display: block;
+.task-time{
+  color:#2563eb;
+  font-size:13px;
+  margin-top:3px;
+  font-weight:600;
 }
 
-.big-stat {
-  text-align: center;
-  padding: 15px;
+.task-description{
+  color:#6b7280;
+  font-size:13px;
+  margin-top:5px;
 }
 
-.big-stat-number {
-  font-size: 38px;
-  font-weight: 800;
+.sub-list{
+  margin:8px 0 0;
+  padding-left:18px;
+  color:#6b7280;
+  font-size:12px;
 }
 
-.row {
-  display: flex;
-  justify-content: space-between;
-  padding: 13px 0;
-  border-bottom: 1px solid #e5e7eb;
+.status-row{
+  display:flex;
+  gap:7px;
+  margin-top:12px;
 }
 
-.dark .row {
-  border-color: #374151;
+.status-btn{
+  flex:1;
+  border:0;
+  padding:9px 5px;
+  border-radius:11px;
+  font-weight:700;
+  font-size:12px;
+  cursor:pointer;
 }
 
-button {
-  font-family: inherit;
+.pending-btn{
+  background:#f1f5f9;
+  color:#475569;
 }
 
-.icon-btn {
-  border: none;
-  background: #f3f4f6;
-  border-radius: 12px;
-  padding: 9px;
-  font-size: 18px;
+.done-btn{
+  background:#dcfce7;
+  color:#166534;
 }
 
-.dark .icon-btn {
-  background: #374151;
-  color: white;
+.didnt-btn{
+  background:#fee2e2;
+  color:#991b1b;
 }
 
-input {
-  width: 100%;
-  padding: 13px;
-  border-radius: 12px;
-  border: 1px solid #d1d5db;
-  margin-top: 7px;
-  margin-bottom: 14px;
-  font-size: 16px;
-  background: white;
+.status-selected{
+  outline:3px solid #2563eb;
+  outline-offset:1px;
 }
 
-.dark input {
-  background: #374151;
-  color: white;
-  border-color: #4b5563;
+.task-actions{
+  display:flex;
+  gap:6px;
+  margin-top:9px;
 }
 
-.modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.5);
-  z-index: 200;
-  align-items: flex-end;
+.small-btn{
+  border:0;
+  background:#f3f4f6;
+  padding:7px 10px;
+  border-radius:9px;
+  font-size:12px;
 }
 
-.modal.show {
-  display: flex;
+.dark .small-btn{
+  background:#374151;
+  color:white;
 }
 
-.modal-box {
-  width: 100%;
-  max-width: 600px;
-  margin: auto;
-  background: white;
-  border-radius: 25px 25px 0 0;
-  padding: 25px;
+/* ADD */
+
+.add-btn{
+  width:calc(100% - 30px);
+  margin:0 15px 15px;
+  border:0;
+  padding:16px;
+  border-radius:17px;
+  background:#2563eb;
+  color:white;
+  font-size:16px;
+  font-weight:750;
 }
 
-.dark .modal-box {
-  background: #1f2937;
+/* NAV */
+
+.bottom-nav{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  height:76px;
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(18px);
+  border-top:1px solid #ddd;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  z-index:100;
 }
 
-.modal-title {
-  font-size: 22px;
-  font-weight: 800;
-  margin-bottom: 20px;
+.dark .bottom-nav{
+  background:rgba(31,41,55,.96);
+  border-color:#374151;
 }
 
-.save-btn {
-  width: 100%;
-  border: none;
-  background: #2563eb;
-  color: white;
-  padding: 15px;
-  border-radius: 14px;
-  font-size: 16px;
-  font-weight: 700;
+.nav-btn{
+  border:0;
+  background:none;
+  color:#6b7280;
+  font-size:10px;
 }
 
-.cancel-btn {
-  width: 100%;
-  border: none;
-  background: #e5e7eb;
-  padding: 14px;
-  border-radius: 14px;
-  margin-top: 8px;
+.nav-btn.active{
+  color:#2563eb;
+  font-weight:700;
 }
 
-.dark .cancel-btn {
-  background: #374151;
-  color: white;
+.nav-icon{
+  display:block;
+  font-size:22px;
+  margin-bottom:2px;
 }
 
-.empty {
-  text-align: center;
-  color: #6b7280;
-  padding: 25px;
+/* MODAL */
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:200;
+  background:rgba(0,0,0,.55);
+  align-items:flex-end;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  width:100%;
+  max-width:650px;
+  margin:auto;
+  max-height:92vh;
+  overflow-y:auto;
+  background:white;
+  border-radius:25px 25px 0 0;
+  padding:23px;
+}
+
+.dark .modal-box{
+  background:#1f2937;
+}
+
+.modal-title{
+  font-size:23px;
+  font-weight:800;
+  margin-bottom:20px;
+}
+
+label{
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  margin-top:12px;
+}
+
+input,textarea{
+  width:100%;
+  border:1px solid #d1d5db;
+  border-radius:12px;
+  padding:12px;
+  margin-top:6px;
+  font-family:inherit;
+  font-size:16px;
+  background:white;
+}
+
+textarea{
+  min-height:80px;
+  resize:vertical;
+}
+
+.dark input,
+.dark textarea{
+  background:#374151;
+  border-color:#4b5563;
+  color:white;
+}
+
+.photo-preview{
+  width:100%;
+  height:150px;
+  object-fit:cover;
+  border-radius:15px;
+  margin-top:8px;
+  display:none;
+}
+
+.modal-buttons{
+  display:flex;
+  gap:8px;
+  margin-top:20px;
+}
+
+.save-btn,
+.cancel-btn{
+  flex:1;
+  border:0;
+  padding:14px;
+  border-radius:13px;
+  font-weight:750;
+  font-size:15px;
+}
+
+.save-btn{
+  background:#2563eb;
+  color:white;
+}
+
+.cancel-btn{
+  background:#e5e7eb;
+}
+
+.dark .cancel-btn{
+  background:#374151;
+  color:white;
+}
+
+/* STATS */
+
+.big-stat{
+  text-align:center;
+  padding:15px;
+}
+
+.big-number{
+  font-size:42px;
+  font-weight:850;
+}
+
+.summary-row{
+  display:flex;
+  justify-content:space-between;
+  padding:13px 0;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.dark .summary-row{
+  border-color:#374151;
+}
+
+.day-bar{
+  margin:12px 0;
+}
+
+.day-title{
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+  margin-bottom:5px;
+}
+
+.mini-bar{
+  height:8px;
+  background:#e5e7eb;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.mini-fill{
+  height:100%;
+  background:#2563eb;
+}
+
+.empty{
+  text-align:center;
+  padding:30px;
+  color:#6b7280;
+}
+
+.switch-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 0;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.dark .switch-row{
+  border-color:#374151;
+}
+
+.switch{
+  position:relative;
+  width:50px;
+  height:28px;
+}
+
+.switch input{
+  opacity:0;
+  width:0;
+  height:0;
+}
+
+.slider{
+  position:absolute;
+  cursor:pointer;
+  inset:0;
+  background:#d1d5db;
+  border-radius:30px;
+  transition:.2s;
+}
+
+.slider:before{
+  content:"";
+  position:absolute;
+  width:22px;
+  height:22px;
+  left:3px;
+  top:3px;
+  background:white;
+  border-radius:50%;
+  transition:.2s;
+}
+
+.switch input:checked + .slider{
+  background:#2563eb;
+}
+
+.switch input:checked + .slider:before{
+  transform:translateX(22px);
 }
 </style>
 </head>
@@ -350,43 +572,69 @@ input {
 <div class="app">
 
 <header class="header">
-  <div class="header-top">
+  <div class="header-row">
+
     <div>
       <div class="logo">MyDay</div>
       <div class="date" id="todayDate"></div>
     </div>
 
     <button class="icon-btn" onclick="toggleDark()">🌙</button>
+
   </div>
 </header>
 
 
 <!-- TODAY -->
 
-<section id="today" class="section active">
+<section id="today" class="page active">
 
   <div class="card">
 
-    <div class="progress-number" id="progressText">0%</div>
+    <div class="progress-top">
+      <div>
+        <div class="progress-percent" id="progressPercent">0%</div>
+        <div class="progress-label">Today's performance</div>
+      </div>
+
+      <div>📅 Today</div>
+    </div>
 
     <div class="progress-bar">
       <div class="progress-fill" id="progressFill"></div>
     </div>
 
     <div class="stats">
-      <span>✅ Done: <b id="doneCount">0</b></span>
-      <span>❌ Didn't: <b id="didntCount">0</b></span>
-      <span>⏳ Pending: <b id="pendingCount">0</b></span>
+
+      <div class="stat">
+        <div class="stat-number" id="doneCount">0</div>
+        <div class="stat-label">DONE</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-number" id="didntCount">0</div>
+        <div class="stat-label">DIDN'T</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-number" id="pendingCount">0</div>
+        <div class="stat-label">PENDING</div>
+      </div>
+
     </div>
 
   </div>
 
+
   <div class="card">
-    <h3>Today's Tasks</h3>
-    <div id="taskList"></div>
+
+    <h3>Today's Routine</h3>
+
+    <div id="routineList"></div>
+
   </div>
 
-  <button class="add-btn" onclick="openModal()">
+  <button class="add-btn" onclick="openAddModal()">
     ＋ Add Routine
   </button>
 
@@ -395,18 +643,23 @@ input {
 
 <!-- WEEK -->
 
-<section id="week" class="section">
+<section id="week" class="page">
 
   <div class="card">
 
     <h2>📊 This Week</h2>
 
     <div class="big-stat">
-      <div class="big-stat-number" id="weekPercent">0%</div>
+
+      <div class="big-number" id="weekPercent">
+        0%
+      </div>
+
       <div>Weekly Performance</div>
+
     </div>
 
-    <div id="weekDetails"></div>
+    <div id="weekDays"></div>
 
   </div>
 
@@ -415,29 +668,39 @@ input {
 
 <!-- MONTH -->
 
-<section id="month" class="section">
+<section id="month" class="page">
 
   <div class="card">
 
     <h2>📈 This Month</h2>
 
     <div class="big-stat">
-      <div class="big-stat-number" id="monthPercent">0%</div>
+
+      <div class="big-number" id="monthPercent">
+        0%
+      </div>
+
       <div>Monthly Performance</div>
+
     </div>
 
-    <div class="row">
+    <div class="summary-row">
       <span>✅ Completed</span>
       <b id="monthDone">0</b>
     </div>
 
-    <div class="row">
+    <div class="summary-row">
       <span>❌ Didn't</span>
       <b id="monthDidnt">0</b>
     </div>
 
-    <div class="row">
-      <span>🔥 Current Streak</span>
+    <div class="summary-row">
+      <span>⏳ Pending</span>
+      <b id="monthPending">0</b>
+    </div>
+
+    <div class="summary-row">
+      <span>🔥 Streak</span>
       <b id="streak">0 days</b>
     </div>
 
@@ -448,7 +711,7 @@ input {
 
 <!-- HISTORY -->
 
-<section id="history" class="section">
+<section id="history" class="page">
 
   <div class="card">
 
@@ -463,30 +726,58 @@ input {
 
 <!-- SETTINGS -->
 
-<section id="settings" class="section">
+<section id="settings" class="page">
 
   <div class="card">
 
     <h2>⚙️ Settings</h2>
 
-    <div class="row">
-      <span>🔔 Notifications</span>
-      <button class="icon-btn" onclick="requestNotifications()">Enable</button>
+    <div class="switch-row">
+
+      <span>🌙 Dark Mode</span>
+
+      <label class="switch">
+
+        <input
+          type="checkbox"
+          id="darkSwitch"
+          onchange="toggleDarkFromSwitch()"
+        >
+
+        <span class="slider"></span>
+
+      </label>
+
     </div>
 
-    <div class="row">
-      <span>📲 App Version</span>
-      <b>3.0</b>
+    <div class="switch-row">
+
+      <span>🔔 Notification Permission</span>
+
+      <button class="small-btn" onclick="requestNotifications()">
+        Enable
+      </button>
+
     </div>
 
-    <div class="row">
-      <span>💾 Data</span>
-      <button class="icon-btn" onclick="exportData()">Export</button>
+    <div class="switch-row">
+
+      <span>💾 Backup</span>
+
+      <button class="small-btn" onclick="exportData()">
+        Export
+      </button>
+
     </div>
 
-    <div class="row">
-      <span>🗑️ Reset</span>
-      <button class="icon-btn" onclick="resetData()">Reset</button>
+    <div class="switch-row">
+
+      <span>🗑️ Delete all data</span>
+
+      <button class="small-btn" onclick="resetData()">
+        Reset
+      </button>
+
     </div>
 
   </div>
@@ -494,31 +785,36 @@ input {
 </section>
 
 
-<!-- NAVIGATION -->
+<!-- NAV -->
 
 <nav class="bottom-nav">
 
-  <button class="nav-btn active" onclick="showPage('today',this)">
+  <button class="nav-btn active"
+          onclick="showPage('today',this)">
     <span class="nav-icon">☀️</span>
     Today
   </button>
 
-  <button class="nav-btn" onclick="showPage('week',this)">
+  <button class="nav-btn"
+          onclick="showPage('week',this)">
     <span class="nav-icon">📊</span>
     Week
   </button>
 
-  <button class="nav-btn" onclick="showPage('month',this)">
+  <button class="nav-btn"
+          onclick="showPage('month',this)">
     <span class="nav-icon">📈</span>
     Month
   </button>
 
-  <button class="nav-btn" onclick="showPage('history',this)">
+  <button class="nav-btn"
+          onclick="showPage('history',this)">
     <span class="nav-icon">📅</span>
     History
   </button>
 
-  <button class="nav-btn" onclick="showPage('settings',this)">
+  <button class="nav-btn"
+          onclick="showPage('settings',this)">
     <span class="nav-icon">⚙️</span>
     Settings
   </button>
@@ -528,585 +824,1540 @@ input {
 </div>
 
 
-<!-- ADD ROUTINE MODAL -->
+<!-- EDIT MODAL -->
 
-<div class="modal" id="modal">
+<div class="modal" id="routineModal">
 
-  <div class="modal-box">
+<div class="modal-box">
 
-    <div class="modal-title">Add Routine</div>
+<div class="modal-title" id="modalTitle">
+Add Routine
+</div>
 
-    <label>Routine name</label>
-    <input id="routineName" placeholder="Example: Reading">
+<label>Routine name</label>
 
-    <label>Time</label>
-    <input id="routineTime" type="time">
+<input
+  id="routineName"
+  placeholder="Example: GYM"
+>
 
-    <button class="save-btn" onclick="addRoutine()">
-      Add Routine
-    </button>
+<label>Description</label>
 
-    <button class="cancel-btn" onclick="closeModal()">
-      Cancel
-    </button>
+<textarea
+  id="routineDescription"
+  placeholder="Example: Don't skip"
+></textarea>
 
-  </div>
+<label>Time</label>
 
+<input
+  id="routineTime"
+  type="time"
+>
+
+<label>Sub-routines</label>
+
+<textarea
+  id="routineSubroutines"
+  placeholder="Write one sub-routine per line&#10;Example:&#10;Warm up&#10;Workout&#10;Cool down"
+></textarea>
+
+<label>Routine photo</label>
+
+<input
+  id="routinePhoto"
+  type="file"
+  accept="image/*"
+  onchange="previewPhoto(event)"
+>
+
+<img
+  id="photoPreview"
+  class="photo-preview"
+>
+
+<div class="switch-row">
+
+  <span>🔔 Reminder</span>
+
+  <label class="switch">
+
+    <input
+      type="checkbox"
+      id="routineReminder"
+    >
+
+    <span class="slider"></span>
+
+  </label>
+
+</div>
+
+<div class="modal-buttons">
+
+<button
+  class="cancel-btn"
+  onclick="closeModal()">
+  Cancel
+</button>
+
+<button
+  class="save-btn"
+  onclick="saveRoutine()">
+  Save
+</button>
+
+</div>
+
+</div>
 </div>
 
 
 <script>
 
+/* =========================
+   DEFAULT ROUTINES
+========================= */
+
 const defaultRoutines = [
-  {id:1,name:"Fajr Prayer",time:"05:00"},
-  {id:2,name:"Quran",time:"05:30"},
-  {id:3,name:"Duas",time:"06:00"},
-  {id:4,name:"Dhikr",time:"06:15"},
-  {id:5,name:"Work / Career",time:"08:00"},
-  {id:6,name:"Study / Learning",time:"20:00"},
-  {id:7,name:"Gym / Exercise",time:"19:00"},
-  {id:8,name:"Other Important Task",time:"21:00"}
+
+{
+ id:1,
+ name:"WAKEUP",
+ description:"Start your day",
+ time:"04:15",
+ subroutines:[],
+ photo:"",
+ reminder:false
+},
+
+{
+ id:2,
+ name:"THAHAJJUDH",
+ description:"Complete Tahajjudh",
+ time:"04:25",
+ subroutines:[],
+ photo:"",
+ reminder:false
+},
+
+{
+ id:3,
+ name:"DUA",
+ description:"Make your daily dua",
+ time:"",
+ subroutines:[],
+ photo:"",
+ reminder:false
+},
+
+{
+ id:4,
+ name:"SUBAH",
+ description:"Complete Subah",
+ time:"04:50",
+ subroutines:[],
+ photo:"",
+ reminder:false
+},
+
+{
+ id:5,
+ name:"THIKR",
+ description:"Complete daily thikr",
+ time:"",
+ subroutines:[],
+ photo:"",
+ reminder:false
+},
+
+{
+ id:6,
+ name:"QURAN",
+ description:"Read Quran",
+ time:"",
+ subroutines:[],
+ photo:"",
+ reminder:false
+},
+
+{
+ id:7,
+ name:"HADHEES",
+ description:"Read / study Hadhees",
+ time:"",
+ subroutines:[],
+ photo:"",
+ reminder:false
+},
+
+{
+ id:8,
+ name:"ENGLISH",
+ description:"English learning",
+ time:"",
+ subroutines:[],
+ photo:"",
+ reminder:false
+},
+
+{
+ id:9,
+ name:"SINHALA",
+ description:"Sinhala learning",
+ time:"",
+ subroutines:[],
+ photo:"",
+ reminder:false
+},
+
+{
+ id:10,
+ name:"QS",
+ description:"QS work / study",
+ time:"05:35",
+ subroutines:[],
+ photo:"",
+ reminder:false
+},
+
+{
+ id:11,
+ name:"COOK",
+ description:"Prepare your food",
+ time:"",
+ subroutines:[],
+ photo:"",
+ reminder:false
+},
+
+{
+ id:12,
+ name:"ZHUHAR",
+ description:"Complete Zhuhar",
+ time:"12:00",
+ subroutines:[],
+ photo:"",
+ reminder:false
+},
+
+{
+ id:13,
+ name:"ASAR",
+ description:"Complete Asar",
+ time:"17:10",
+ subroutines:[],
+ photo:"",
+ reminder:false
+},
+
+{
+ id:14,
+ name:"MAGHRIB",
+ description:"Complete Maghrib",
+ time:"18:20",
+ subroutines:[],
+ photo:"",
+ reminder:false
+},
+
+{
+ id:15,
+ name:"ISHA",
+ description:"Complete Isha",
+ time:"19:30",
+ subroutines:[],
+ photo:"",
+ reminder:false
+},
+
+{
+ id:16,
+ name:"GYM",
+ description:"Don't skip",
+ time:"20:30",
+ subroutines:[],
+ photo:"",
+ reminder:true
+},
+
+{
+ id:17,
+ name:"THAFSEER",
+ description:"Study Thafseer",
+ time:"22:20",
+ subroutines:[],
+ photo:"",
+ reminder:false
+},
+
+{
+ id:18,
+ name:"SLEEP",
+ description:"Go to sleep on time",
+ time:"22:30",
+ subroutines:[],
+ photo:"",
+ reminder:false
+},
+
+{
+ id:19,
+ name:"NP",
+ description:"Complete NP",
+ time:"22:35",
+ subroutines:[],
+ photo:"",
+ reminder:false
+}
+
 ];
 
+
+/* =========================
+   STORAGE
+========================= */
+
 let routines =
-  JSON.parse(localStorage.getItem("myday_routines")) ||
-  defaultRoutines;
+JSON.parse(
+ localStorage.getItem("myday_v4_routines")
+) || defaultRoutines;
 
 let records =
-  JSON.parse(localStorage.getItem("myday_records")) || {};
+JSON.parse(
+ localStorage.getItem("myday_v4_records")
+) || {};
 
-function todayKey() {
-  const d = new Date();
+let editingId = null;
 
-  return d.getFullYear() + "-" +
-    String(d.getMonth()+1).padStart(2,"0") + "-" +
-    String(d.getDate()).padStart(2,"0");
+
+/* =========================
+   SAVE
+========================= */
+
+function saveAll(){
+
+ localStorage.setItem(
+  "myday_v4_routines",
+  JSON.stringify(routines)
+ );
+
+ localStorage.setItem(
+  "myday_v4_records",
+  JSON.stringify(records)
+ );
+
 }
 
-function save() {
-  localStorage.setItem(
-    "myday_routines",
-    JSON.stringify(routines)
-  );
 
-  localStorage.setItem(
-    "myday_records",
-    JSON.stringify(records)
-  );
+/* =========================
+   DATE
+========================= */
+
+function dateKey(date=new Date()){
+
+ return date.getFullYear()
+ + "-"
+ + String(date.getMonth()+1).padStart(2,"0")
+ + "-"
+ + String(date.getDate()).padStart(2,"0");
+
 }
 
-function getTodayRecords() {
 
-  const key = todayKey();
+/* =========================
+   TODAY
+========================= */
 
-  if (!records[key]) {
-    records[key] = {};
-  }
+function today(){
 
-  return records[key];
+ return dateKey(new Date());
+
 }
 
-function setStatus(id,status) {
 
-  const day = getTodayRecords();
+function todayRecords(){
 
-  day[id] = status;
+ const key=today();
 
-  save();
+ if(!records[key]){
+  records[key]={};
+ }
 
-  render();
+ return records[key];
+
 }
 
-function render() {
 
-  renderTasks();
-  updateTodayStats();
-  updateWeek();
-  updateMonth();
-  updateHistory();
+/* =========================
+   SORT
+========================= */
+
+function sortedRoutines(){
+
+ return [...routines].sort((a,b)=>{
+
+  if(!a.time && !b.time) return 0;
+
+  if(!a.time) return -1;
+
+  if(!b.time) return 1;
+
+  return a.time.localeCompare(b.time);
+
+ });
+
 }
 
-function renderTasks() {
 
-  const container =
-    document.getElementById("taskList");
+/* =========================
+   FORMAT TIME
+========================= */
 
-  const day = getTodayRecords();
+function formatTime(time){
 
-  if (routines.length === 0) {
-    container.innerHTML =
-      '<div class="empty">No routines yet.</div>';
-    return;
-  }
+ if(!time) return "";
 
-  container.innerHTML = routines.map(r => {
+ const [hour,minute]=time.split(":");
 
-    const status = day[r.id] || "pending";
+ let h=parseInt(hour);
 
-    return `
-      <div class="task">
+ const suffix=h>=12 ? "PM" : "AM";
 
-        <div class="task-info">
-          <div class="task-name">${escapeHTML(r.name)}</div>
-          <div class="task-time">⏰ ${r.time}</div>
-        </div>
+ h=h%12;
 
-        <div class="status-buttons">
+ if(h===0) h=12;
 
-          <button
-            class="status-btn ${status === "done" ? "done" : "pending"}"
-            onclick="setStatus(${r.id},'done')">
-            ✓
-          </button>
+ return `${h}:${minute} ${suffix}`;
 
-          <button
-            class="status-btn ${status === "didnt" ? "didnt" : "pending"}"
-            onclick="setStatus(${r.id},'didnt')">
-            ✕
-          </button>
-
-        </div>
-
-      </div>
-    `;
-
-  }).join("");
 }
 
-function updateTodayStats() {
 
-  const day = getTodayRecords();
+/* =========================
+   RENDER ROUTINES
+========================= */
 
-  let done = 0;
-  let didnt = 0;
+function render(){
 
-  routines.forEach(r => {
+ renderRoutines();
 
-    if (day[r.id] === "done") done++;
+ updateToday();
 
-    if (day[r.id] === "didnt") didnt++;
+ updateWeek();
 
-  });
+ updateMonth();
 
-  const total = routines.length;
+ updateHistory();
 
-  const pending =
-    Math.max(total - done - didnt,0);
-
-  const percent =
-    total === 0
-      ? 0
-      : Math.round((done / total) * 100);
-
-  document.getElementById("progressText")
-    .textContent = percent + "%";
-
-  document.getElementById("progressFill")
-    .style.width = percent + "%";
-
-  document.getElementById("doneCount")
-    .textContent = done;
-
-  document.getElementById("didntCount")
-    .textContent = didnt;
-
-  document.getElementById("pendingCount")
-    .textContent = pending;
 }
 
-function getDateKey(date) {
 
-  return date.getFullYear() + "-" +
-    String(date.getMonth()+1).padStart(2,"0") + "-" +
-    String(date.getDate()).padStart(2,"0");
-}
+function renderRoutines(){
 
-function updateWeek() {
+ const container=
+ document.getElementById("routineList");
 
-  let done = 0;
-  let total = 0;
+ const day=todayRecords();
 
-  for (let i=0;i<7;i++) {
+ const list=sortedRoutines();
 
-    const d = new Date();
+ if(list.length===0){
 
-    d.setDate(d.getDate()-i);
+  container.innerHTML=
+  `<div class="empty">
+   No routines yet.
+  </div>`;
 
-    const key = getDateKey(d);
+  return;
 
-    const day = records[key] || {};
+ }
 
-    routines.forEach(r => {
+ container.innerHTML=list.map(r=>{
 
-      total++;
+  const status=
+   day[r.id] || "pending";
 
-      if (day[r.id] === "done") {
-        done++;
-      }
+  let photoHTML="";
 
-    });
+  if(r.photo){
+
+   photoHTML=
+   `<img
+     class="photo"
+     src="${r.photo}"
+   >`;
+
+  }else{
+
+   photoHTML=
+   `<div class="photo-placeholder">
+      📌
+    </div>`;
 
   }
 
-  const percent =
-    total === 0 ? 0 :
-    Math.round((done/total)*100);
 
-  document.getElementById("weekPercent")
-    .textContent = percent + "%";
-
-  document.getElementById("weekDetails")
-    .innerHTML =
-      `<div class="row">
-        <span>Completed</span>
-        <b>${done}</b>
-      </div>
-      <div class="row">
-        <span>Total tasks</span>
-        <b>${total}</b>
-      </div>`;
-}
-
-function updateMonth() {
-
-  const now = new Date();
-
-  let done = 0;
-  let didnt = 0;
-
-  const days =
-    new Date(
-      now.getFullYear(),
-      now.getMonth()+1,
-      0
-    ).getDate();
-
-  for (let i=1;i<=days;i++) {
-
-    const d = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      i
-    );
-
-    const key = getDateKey(d);
-
-    const day = records[key] || {};
-
-    routines.forEach(r => {
-
-      if (day[r.id] === "done") done++;
-
-      if (day[r.id] === "didnt") didnt++;
-
-    });
-
-  }
-
-  const total = days * routines.length;
-
-  const percent =
-    total === 0 ? 0 :
-    Math.round((done/total)*100);
-
-  document.getElementById("monthPercent")
-    .textContent = percent + "%";
-
-  document.getElementById("monthDone")
-    .textContent = done;
-
-  document.getElementById("monthDidnt")
-    .textContent = didnt;
-
-  calculateStreak();
-}
-
-function calculateStreak() {
-
-  let streak = 0;
-
-  for (let i=0;i<365;i++) {
-
-    const d = new Date();
-
-    d.setDate(d.getDate()-i);
-
-    const key = getDateKey(d);
-
-    const day = records[key] || {};
-
-    const completed =
-      routines.length > 0 &&
-      routines.every(r =>
-        day[r.id] === "done"
-      );
-
-    if (completed) {
-      streak++;
-    } else {
-      break;
-    }
-
-  }
-
-  document.getElementById("streak")
-    .textContent = streak + " days";
-}
-
-function updateHistory() {
-
-  const container =
-    document.getElementById("historyList");
-
-  const keys =
-    Object.keys(records).sort().reverse();
-
-  if (keys.length === 0) {
-
-    container.innerHTML =
-      '<div class="empty">No history yet.</div>';
-
-    return;
-  }
-
-  container.innerHTML =
-    keys.slice(0,30).map(key => {
-
-      const day = records[key];
-
-      let done = 0;
-      let didnt = 0;
-
-      routines.forEach(r => {
-
-        if(day[r.id] === "done") done++;
-
-        if(day[r.id] === "didnt") didnt++;
-
-      });
-
-      return `
-        <div class="row">
-
-          <span>
-            📅 ${key}
-          </span>
-
-          <span>
-            ✅ ${done}
-            &nbsp;
-            ❌ ${didnt}
-          </span>
-
-        </div>
-      `;
-
-    }).join("");
-}
-
-function showPage(page,button) {
-
-  document
-    .querySelectorAll(".section")
-    .forEach(s =>
-      s.classList.remove("active")
-    );
-
-  document
-    .getElementById(page)
-    .classList.add("active");
-
-  document
-    .querySelectorAll(".nav-btn")
-    .forEach(b =>
-      b.classList.remove("active")
-    );
-
-  button.classList.add("active");
-
-  window.scrollTo(0,0);
-}
-
-function openModal() {
-
-  document
-    .getElementById("modal")
-    .classList.add("show");
-}
-
-function closeModal() {
-
-  document
-    .getElementById("modal")
-    .classList.remove("show");
-}
-
-function addRoutine() {
-
-  const name =
-    document.getElementById("routineName")
-      .value.trim();
-
-  const time =
-    document.getElementById("routineTime")
-      .value;
-
-  if (!name) {
-
-    alert("Please enter a routine name.");
-
-    return;
-  }
-
-  const routine = {
-
-    id: Date.now(),
-
-    name:name,
-
-    time:time || "00:00"
-
-  };
-
-  routines.push(routine);
-
-  save();
-
-  document.getElementById("routineName")
-    .value = "";
-
-  document.getElementById("routineTime")
-    .value = "";
-
-  closeModal();
-
-  render();
-}
-
-function toggleDark() {
-
-  document.body.classList.toggle("dark");
-
-  localStorage.setItem(
-    "myday_dark",
-    document.body.classList.contains("dark")
-  );
-
-}
-
-function requestNotifications() {
-
-  if (!("Notification" in window)) {
-
-    alert(
-      "Notifications are not supported by this browser."
-    );
-
-    return;
-  }
-
-  Notification.requestPermission()
-    .then(permission => {
-
-      if(permission === "granted") {
-
-        new Notification("MyDay", {
-          body:"Notifications are enabled!"
-        });
-
-      }
-
-    });
-
-}
-
-function exportData() {
-
-  const data = {
-
-    routines:routines,
-
-    records:records
-
-  };
-
-  const blob =
-    new Blob(
-      [JSON.stringify(data,null,2)],
-      {type:"application/json"}
-    );
-
-  const url =
-    URL.createObjectURL(blob);
-
-  const a =
-    document.createElement("a");
-
-  a.href = url;
-
-  a.download =
-    "MyDay-backup.json";
-
-  a.click();
-
-  URL.revokeObjectURL(url);
-}
-
-function resetData() {
+  let subs="";
 
   if(
-    confirm(
-      "Delete all MyDay progress?"
-    )
-  ) {
+   r.subroutines &&
+   r.subroutines.length
+  ){
 
-    localStorage.removeItem("myday_records");
-
-    location.reload();
+   subs=
+   `<ul class="sub-list">
+      ${
+       r.subroutines
+       .map(x=>`<li>${escapeHTML(x)}</li>`)
+       .join("")
+      }
+    </ul>`;
 
   }
 
+
+  return `
+
+  <div class="task">
+
+    <div class="task-main">
+
+      ${photoHTML}
+
+      <div class="task-info">
+
+        <div class="task-name">
+          ${escapeHTML(r.name)}
+        </div>
+
+        ${
+         r.time
+         ?
+         `<div class="task-time">
+            ⏰ ${formatTime(r.time)}
+          </div>`
+         :
+         `<div class="task-time">
+            ⏰ No time set
+          </div>`
+        }
+
+        ${
+         r.description
+         ?
+         `<div class="task-description">
+            ${escapeHTML(r.description)}
+          </div>`
+         :
+         ""
+        }
+
+        ${subs}
+
+      </div>
+
+    </div>
+
+
+    <div class="status-row">
+
+      <button
+       class="status-btn done-btn
+       ${status==="done"?"status-selected":""}"
+       onclick="setStatus(${r.id},'done')">
+
+       ✓ Done
+
+      </button>
+
+      <button
+       class="status-btn didnt-btn
+       ${status==="didnt"?"status-selected":""}"
+       onclick="setStatus(${r.id},'didnt')">
+
+       ✕ Didn't
+
+      </button>
+
+      <button
+       class="status-btn pending-btn
+       ${status==="pending"?"status-selected":""}"
+       onclick="setStatus(${r.id},'pending')">
+
+       ⏳ Pending
+
+      </button>
+
+    </div>
+
+
+    <div class="task-actions">
+
+      <button
+       class="small-btn"
+       onclick="editRoutine(${r.id})">
+
+       ✏️ Edit
+
+      </button>
+
+      <button
+       class="small-btn"
+       onclick="deleteRoutine(${r.id})">
+
+       🗑️ Delete
+
+      </button>
+
+      ${
+       r.reminder
+       ?
+       `<span
+          class="small-btn">
+          🔔 Reminder ON
+        </span>`
+       :
+       ""
+      }
+
+    </div>
+
+  </div>
+
+  `;
+
+ }).join("");
+
 }
 
-function escapeHTML(text) {
 
-  return text
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+/* =========================
+   STATUS
+========================= */
+
+function setStatus(id,status){
+
+ const day=todayRecords();
+
+ day[id]=status;
+
+ saveAll();
+
+ render();
 
 }
 
-document.getElementById("todayDate")
-  .textContent =
-  new Date().toLocaleDateString(
-    undefined,
-    {
-      weekday:"long",
-      day:"numeric",
-      month:"long"
-    }
+
+/* =========================
+   TODAY STATS
+========================= */
+
+function updateToday(){
+
+ const day=todayRecords();
+
+ let done=0;
+ let didnt=0;
+ let pending=0;
+
+ routines.forEach(r=>{
+
+  const s=day[r.id] || "pending";
+
+  if(s==="done") done++;
+
+  else if(s==="didnt") didnt++;
+
+  else pending++;
+
+ });
+
+ const total=routines.length;
+
+ const percent=
+ total
+ ? Math.round(done/total*100)
+ : 0;
+
+ document.getElementById(
+  "progressPercent"
+ ).textContent=percent+"%";
+
+ document.getElementById(
+  "progressFill"
+ ).style.width=percent+"%";
+
+ document.getElementById(
+  "doneCount"
+ ).textContent=done;
+
+ document.getElementById(
+  "didntCount"
+ ).textContent=didnt;
+
+ document.getElementById(
+  "pendingCount"
+ ).textContent=pending;
+
+}
+
+
+/* =========================
+   WEEK
+========================= */
+
+function updateWeek(){
+
+ let total=0;
+ let done=0;
+
+ const container=
+ document.getElementById("weekDays");
+
+ let html="";
+
+ for(let i=6;i>=0;i--){
+
+  const d=new Date();
+
+  d.setDate(
+   d.getDate()-i
   );
 
-if(
-  localStorage.getItem("myday_dark") === "true"
-) {
-  document.body.classList.add("dark");
-}
+  const key=dateKey(d);
 
-if ("serviceWorker" in navigator) {
+  const day=records[key] || {};
 
-  window.addEventListener("load", () => {
+  let dDone=0;
 
-    navigator.serviceWorker
-      .register("sw.js")
-      .catch(() => {});
+  routines.forEach(r=>{
+
+   if(day[r.id]==="done"){
+    dDone++;
+   }
 
   });
 
+  const percent=
+   routines.length
+   ?
+   Math.round(
+    dDone/routines.length*100
+   )
+   :0;
+
+  total+=routines.length;
+  done+=dDone;
+
+  const label=
+   d.toLocaleDateString(
+    undefined,
+    {
+     weekday:"short",
+     month:"short",
+     day:"numeric"
+    }
+   );
+
+  html+=`
+
+   <div class="day-bar">
+
+    <div class="day-title">
+
+      <span>${label}</span>
+
+      <b>${percent}%</b>
+
+    </div>
+
+    <div class="mini-bar">
+
+      <div
+       class="mini-fill"
+       style="width:${percent}%">
+      </div>
+
+    </div>
+
+   </div>
+
+  `;
+
+ }
+
+ const weekPercent=
+  total
+  ? Math.round(done/total*100)
+  :0;
+
+ document.getElementById(
+  "weekPercent"
+ ).textContent=weekPercent+"%";
+
+ container.innerHTML=html;
+
 }
+
+
+/* =========================
+   MONTH
+========================= */
+
+function updateMonth(){
+
+ const now=new Date();
+
+ const days=
+ new Date(
+  now.getFullYear(),
+  now.getMonth()+1,
+  0
+ ).getDate();
+
+ let done=0;
+ let didnt=0;
+ let pending=0;
+
+ for(let i=1;i<=days;i++){
+
+  const d=new Date(
+   now.getFullYear(),
+   now.getMonth(),
+   i
+  );
+
+  const key=dateKey(d);
+
+  const day=records[key] || {};
+
+  routines.forEach(r=>{
+
+   const s=
+    day[r.id] || "pending";
+
+   if(s==="done") done++;
+
+   else if(s==="didnt") didnt++;
+
+   else pending++;
+
+  });
+
+ }
+
+ const total=
+  days*routines.length;
+
+ const percent=
+  total
+  ? Math.round(done/total*100)
+  :0;
+
+ document.getElementById(
+  "monthPercent"
+ ).textContent=percent+"%";
+
+ document.getElementById(
+  "monthDone"
+ ).textContent=done;
+
+ document.getElementById(
+  "monthDidnt"
+ ).textContent=didnt;
+
+ document.getElementById(
+  "monthPending"
+ ).textContent=pending;
+
+ calculateStreak();
+
+}
+
+
+/* =========================
+   STREAK
+========================= */
+
+function calculateStreak(){
+
+ let streak=0;
+
+ for(let i=0;i<365;i++){
+
+  const d=new Date();
+
+  d.setDate(
+   d.getDate()-i
+  );
+
+  const key=dateKey(d);
+
+  const day=records[key] || {};
+
+  const complete=
+   routines.length>0 &&
+   routines.every(r=>
+    day[r.id]==="done"
+   );
+
+  if(complete){
+   streak++;
+  }else{
+   break;
+  }
+
+ }
+
+ document.getElementById(
+  "streak"
+ ).textContent=
+ streak+" days";
+
+}
+
+
+/* =========================
+   HISTORY
+========================= */
+
+function updateHistory(){
+
+ const container=
+ document.getElementById(
+  "historyList"
+ );
+
+ const keys=
+ Object.keys(records)
+ .sort()
+ .reverse();
+
+ if(!keys.length){
+
+  container.innerHTML=
+   `<div class="empty">
+      No history yet.
+    </div>`;
+
+  return;
+
+ }
+
+ container.innerHTML=
+ keys.slice(0,60)
+ .map(key=>{
+
+  const day=records[key];
+
+  let done=0;
+  let didnt=0;
+
+  routines.forEach(r=>{
+
+   if(day[r.id]==="done") done++;
+
+   if(day[r.id]==="didnt") didnt++;
+
+  });
+
+  return `
+
+   <div class="summary-row">
+
+    <span>📅 ${key}</span>
+
+    <span>
+      ✅ ${done}
+      &nbsp;&nbsp;
+      ❌ ${didnt}
+    </span>
+
+   </div>
+
+  `;
+
+ }).join("");
+
+}
+
+
+/* =========================
+   ADD
+========================= */
+
+function openAddModal(){
+
+ editingId=null;
+
+ document.getElementById(
+  "modalTitle"
+ ).textContent="Add Routine";
+
+ document.getElementById(
+  "routineName"
+ ).value="";
+
+ document.getElementById(
+  "routineDescription"
+ ).value="";
+
+ document.getElementById(
+  "routineTime"
+ ).value="";
+
+ document.getElementById(
+  "routineSubroutines"
+ ).value="";
+
+ document.getElementById(
+  "routineReminder"
+ ).checked=false;
+
+ document.getElementById(
+  "photoPreview"
+ ).style.display="none";
+
+ document.getElementById(
+  "routineModal"
+ ).classList.add("show");
+
+}
+
+
+/* =========================
+   EDIT
+========================= */
+
+function editRoutine(id){
+
+ const r=
+ routines.find(x=>x.id===id);
+
+ if(!r) return;
+
+ editingId=id;
+
+ document.getElementById(
+  "modalTitle"
+ ).textContent="Edit Routine";
+
+ document.getElementById(
+  "routineName"
+ ).value=r.name;
+
+ document.getElementById(
+  "routineDescription"
+ ).value=
+  r.description || "";
+
+ document.getElementById(
+  "routineTime"
+ ).value=
+  r.time || "";
+
+ document.getElementById(
+  "routineSubroutines"
+ ).value=
+  (r.subroutines || []).join("\n");
+
+ document.getElementById(
+  "routineReminder"
+ ).checked=
+  !!r.reminder;
+
+ const preview=
+  document.getElementById(
+   "photoPreview"
+  );
+
+ if(r.photo){
+
+  preview.src=r.photo;
+
+  preview.style.display="block";
+
+ }else{
+
+  preview.style.display="none";
+
+ }
+
+ document.getElementById(
+  "routineModal"
+ ).classList.add("show");
+
+}
+
+
+/* =========================
+   SAVE ROUTINE
+========================= */
+
+function saveRoutine(){
+
+ const name=
+ document.getElementById(
+  "routineName"
+ ).value.trim();
+
+ if(!name){
+
+  alert("Please enter a routine name.");
+
+  return;
+
+ }
+
+ const description=
+ document.getElementById(
+  "routineDescription"
+ ).value.trim();
+
+ const time=
+ document.getElementById(
+  "routineTime"
+ ).value;
+
+ const subText=
+ document.getElementById(
+  "routineSubroutines"
+ ).value;
+
+ const subroutines=
+  subText
+  .split("\n")
+  .map(x=>x.trim())
+  .filter(Boolean);
+
+ const reminder=
+  document.getElementById(
+   "routineReminder"
+  ).checked;
+
+ const photoInput=
+  document.getElementById(
+   "routinePhoto"
+  );
+
+ const file=
+  photoInput.files[0];
+
+ if(editingId){
+
+  const r=
+   routines.find(
+    x=>x.id===editingId
+   );
+
+  r.name=name;
+  r.description=description;
+  r.time=time;
+  r.subroutines=subroutines;
+  r.reminder=reminder;
+
+  if(file){
+
+   readPhoto(
+    file,
+    image=>{
+     r.photo=image;
+     saveAll();
+     closeModal();
+     render();
+    }
+   );
+
+   return;
+
+  }
+
+ }else{
+
+  const newRoutine={
+
+   id:Date.now(),
+
+   name:name,
+
+   description:description,
+
+   time:time,
+
+   subroutines:subroutines,
+
+   photo:"",
+
+   reminder:reminder
+
+  };
+
+  if(file){
+
+   readPhoto(
+    file,
+    image=>{
+
+     newRoutine.photo=image;
+
+     routines.push(newRoutine);
+
+     saveAll();
+
+     closeModal();
+
+     render();
+
+    }
+   );
+
+   return;
+
+  }
+
+  routines.push(newRoutine);
+
+ }
+
+ saveAll();
+
+ closeModal();
+
+ render();
+
+}
+
+
+/* =========================
+   PHOTO
+========================= */
+
+function readPhoto(file,callback){
+
+ const reader=
+  new FileReader();
+
+ reader.onload=
+  e=>callback(e.target.result);
+
+ reader.readAsDataURL(file);
+
+}
+
+
+function previewPhoto(event){
+
+ const file=
+  event.target.files[0];
+
+ if(!file) return;
+
+ const preview=
+  document.getElementById(
+   "photoPreview"
+  );
+
+ const reader=
+  new FileReader();
+
+ reader.onload=e=>{
+
+  preview.src=
+   e.target.result;
+
+  preview.style.display=
+   "block";
+
+ };
+
+ reader.readAsDataURL(file);
+
+}
+
+
+/* =========================
+   DELETE
+========================= */
+
+function deleteRoutine(id){
+
+ const r=
+  routines.find(
+   x=>x.id===id
+  );
+
+ if(!r) return;
+
+ if(
+  !confirm(
+   `Delete "${r.name}"?`
+  )
+ ) return;
+
+ routines=
+  routines.filter(
+   x=>x.id!==id
+  );
+
+ Object.keys(records)
+ .forEach(key=>{
+
+  if(records[key]){
+   delete records[key][id];
+  }
+
+ });
+
+ saveAll();
+
+ render();
+
+}
+
+
+/* =========================
+   CLOSE MODAL
+========================= */
+
+function closeModal(){
+
+ document.getElementById(
+  "routineModal"
+ ).classList.remove("show");
+
+ document.getElementById(
+  "routinePhoto"
+ ).value="";
+
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+function showPage(page,button){
+
+ document
+ .querySelectorAll(".page")
+ .forEach(p=>
+  p.classList.remove("active")
+ );
+
+ document
+ .getElementById(page)
+ .classList.add("active");
+
+ document
+ .querySelectorAll(".nav-btn")
+ .forEach(b=>
+  b.classList.remove("active")
+ );
+
+ button.classList.add("active");
+
+ window.scrollTo(0,0);
+
+}
+
+
+/* =========================
+   DARK MODE
+========================= */
+
+function applyDark(){
+
+ const dark=
+  localStorage.getItem(
+   "myday_dark"
+  )==="true";
+
+ document.body.classList.toggle(
+  "dark",
+  dark
+ );
+
+ document.getElementById(
+  "darkSwitch"
+ ).checked=dark;
+
+}
+
+
+function toggleDark(){
+
+ const newValue=
+  !document.body.classList.contains(
+   "dark"
+  );
+
+ localStorage.setItem(
+  "myday_dark",
+  newValue
+ );
+
+ applyDark();
+
+}
+
+
+function toggleDarkFromSwitch(){
+
+ const value=
+  document.getElementById(
+   "darkSwitch"
+  ).checked;
+
+ localStorage.setItem(
+  "myday_dark",
+  value
+ );
+
+ applyDark();
+
+}
+
+
+/* =========================
+   NOTIFICATION PERMISSION
+========================= */
+
+function requestNotifications(){
+
+ if(!("Notification" in window)){
+
+  alert(
+   "This browser does not support notifications."
+  );
+
+  return;
+
+ }
+
+ Notification.requestPermission()
+ .then(permission=>{
+
+  if(permission==="granted"){
+
+   alert(
+    "Notification permission enabled. The real scheduled push system will be connected in the next step."
+   );
+
+  }else{
+
+   alert(
+    "Notification permission was not granted."
+   );
+
+  }
+
+ });
+
+}
+
+
+/* =========================
+   EXPORT
+========================= */
+
+function exportData(){
+
+ const data={
+  routines:routines,
+  records:records
+ };
+
+ const blob=
+  new Blob(
+   [
+    JSON.stringify(
+     data,
+     null,
+     2
+    )
+   ],
+   {
+    type:"application/json"
+   }
+  );
+
+ const url=
+  URL.createObjectURL(blob);
+
+ const a=
+  document.createElement("a");
+
+ a.href=url;
+
+ a.download=
+  "MyDay-V4-backup.json";
+
+ a.click();
+
+ URL.revokeObjectURL(url);
+
+}
+
+
+/* =========================
+   RESET
+========================= */
+
+function resetData(){
+
+ if(
+  !confirm(
+   "Delete all MyDay data?"
+  )
+ ) return;
+
+ localStorage.removeItem(
+  "myday_v4_routines"
+ );
+
+ localStorage.removeItem(
+  "myday_v4_records"
+ );
+
+ location.reload();
+
+}
+
+
+/* =========================
+   ESCAPE HTML
+========================= */
+
+function escapeHTML(text){
+
+ return String(text)
+  .replace(/&/g,"&amp;")
+  .replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;")
+  .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+document.getElementById(
+ "todayDate"
+).textContent=
+new Date().toLocaleDateString(
+ undefined,
+ {
+  weekday:"long",
+  day:"numeric",
+  month:"long",
+  year:"numeric"
+ }
+);
+
+applyDark();
 
 render();
 
@@ -1114,3 +2365,4 @@ render();
 
 </body>
 </html>
+```
